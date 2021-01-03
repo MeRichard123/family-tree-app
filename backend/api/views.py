@@ -3,10 +3,33 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+import json
 
 from .serializers import *
 
 from .models import Uncle, Aunt, FamilyTree, Cousin, GrandParent
+
+@api_view(["get"])
+def ListRoutes(req):
+    routes = {
+        "aunts": "/api/aunts/",
+        "aunts 1": "/api/aunts/:name",
+        "uncles": "/api/uncles/",
+        "uncles 1": "/api/uncles/:name",
+        "cousins": "/api/cousins/",
+        "cousins 1": "/api/cousins/:name",
+        "grandparents": "/api/grandparents/",
+        "grandparents 1": "/api/grandparents/:name",
+        "tree": "/api/tree/",
+        "tree 1": "/api/tree/:id",
+        "Register":"api/auth/register",
+        "Login":"api/auth/login", 
+        "Get User Data":"api/auth/user",
+        "Logout":"api/auth/logout",
+    }
+
+    return Response(routes)
 
 # CRUD operations for Aunt Table
 
