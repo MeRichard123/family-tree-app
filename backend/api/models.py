@@ -50,10 +50,18 @@ class GrandParent(models.Model):
     def __str__(self):
         return self.name
 
+class Sibling(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 class FamilyTree(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     mother = models.CharField(max_length=100)
     father = models.CharField(max_length=100)
+    siblings = models.ManyToManyField(Sibling)
     cousins = models.ManyToManyField(Cousin)
     aunts = models.ManyToManyField(Aunt)
     uncles = models.ManyToManyField(Uncle)

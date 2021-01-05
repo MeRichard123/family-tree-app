@@ -1,0 +1,97 @@
+.leaf {
+  background: #b6d369;
+  margin: 10px;
+  word-wrap: nowrap;
+  text-align: center;
+}
+.left {
+  border-radius: 0 100%;
+  padding: 30px 40px 30px 55px;
+}
+.right {
+  border-radius: 100% 0;
+  padding: 30px 40px 30px 55px;
+}
+
+.log {
+  background: #b2945b;
+  text-align: center;
+  grid-area: log;
+  padding: 2rem 0.5rem;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+
+.apple {
+  position: relative;
+  grid-area: cousins;
+  text-align: center;
+  ul {
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    transform: translate(-25%, -50%);
+    list-style: none;
+  }
+}
+.apple:before,
+.apple:after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  left: 50px;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  background: #e17055;
+  border-radius: 50px 50px 50% 50%;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+.apple:after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.p-gfather {
+  grid-area: pgf;
+}
+.p-gmother {
+  grid-area: pgm;
+}
+.m-gfather {
+  grid-area: mgf;
+}
+.m-gmother {
+  grid-area: mgm;
+}
+.p-uncle {
+  grid-area: pu;
+}
+.p-aunt {
+  grid-area: pa;
+}
+.father {
+  grid-area: f;
+}
+.mother {
+  grid-area: m;
+}
+.m-uncle {
+  grid-area: mu;
+}
+.m-aunt {
+  grid-area: ma;
+}
+.tree-container {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-areas:
+    ". pgf pgm . . . mgm mgf ."
+    ". . . . . . . . ."
+    ". pu pa f . m ma mu ."
+    ". . cousins . . . . . ."
+    ". . . . log . . . .";
+}

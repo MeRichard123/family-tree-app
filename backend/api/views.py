@@ -8,7 +8,7 @@ import json
 
 from .serializers import *
 
-from .models import Uncle, Aunt, FamilyTree, Cousin, GrandParent
+from .models import Uncle, Aunt, FamilyTree, Cousin, GrandParent, Sibling
 
 @api_view(["get"])
 def ListRoutes(req):
@@ -21,12 +21,15 @@ def ListRoutes(req):
         "cousins 1": "/api/cousins/:name",
         "grandparents": "/api/grandparents/",
         "grandparents 1": "/api/grandparents/:name",
+        "siblings": "/api/siblings/",
+        "siblings 1": "/api/siblings/:name",
         "tree": "/api/tree/",
         "tree 1": "/api/tree/:id",
+        'auth': [
         "Register":"api/auth/register",
         "Login":"api/auth/login", 
         "Get User Data":"api/auth/user",
-        "Logout":"api/auth/logout",
+        "Logout":"api/auth/logout"]
     }
 
     return Response(routes)
@@ -60,7 +63,33 @@ class AuntViewset(viewsets.ViewSet):
         member.delete()
         return Response(data={"Member Removed"}, status=status.HTTP_204_NO_CONTENT)
 
+class SiblingViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
+    def list(self,req):
+        queryset = Sibling.objects.filter(user=req.user)
+        serializer = A=SiblingSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, req, pk):
+        field_name = "name"
+        queryset = Sibling.objects.filter(**{field_name: pk})
+        serializer = SiblingSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, req):
+        serializer = SiblingSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, req, pk):
+        field_name = "name"
+        member = Sibling.objects.filter(**{field_name: pk})
+        member.delete()
+        return Response(data={"Member Removed"}, status=status.HTTP_204_NO_CONTENT)
+    
 # CRUD operations for Uncle Table
 
 class UncleViewset(viewsets.ViewSet):
@@ -152,7 +181,7 @@ class GrandparentViewset(viewsets.ViewSet):
 
 
 class FamilyTreeViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def list(self, req):
         queryset = FamilyTree.objects.filter(user=req.user)
