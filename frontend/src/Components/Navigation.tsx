@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../Assets/Logo.svg";
-import { useAuth } from "../Utilities/store";
+import { useAuth } from "../Utils/store";
 
 const Navigation: React.FC = () => {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);

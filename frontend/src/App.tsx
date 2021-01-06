@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Navigation from "./Components/Navigation";
 import { Home, Login, Register } from "./Views";
 import Footer from "./Components/Footer";
-//import PrivateRoute from "./Utilities/PrivateRoute";
+//import PrivateRoute from "./Utils/PrivateRoute";
 
 const queryClient = new QueryClient();
 
