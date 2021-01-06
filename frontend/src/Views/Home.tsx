@@ -1,6 +1,20 @@
 import React from "react";
 import Tree from "../Components/Tree";
 
+const defaultTreeProps = {
+  p_gfather: "P Grandfather",
+  p_gmother: "P Mother",
+  m_gfather: "M Grandfather",
+  m_gmother: "M Grandmother",
+  p_uncle: "P Uncle",
+  p_aunt: "P Aunt",
+  father: "Father",
+  mother: "Mother",
+  m_uncle: "M Uncle",
+  m_aunt: "M Aunt",
+  cousins: ["Cousin1", "Cousin2"],
+};
+
 const Home: React.FC = () => {
   return (
     <section className="homepage">
@@ -14,7 +28,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="tree">
-        <Tree />
+        <Tree {...defaultTreeProps} />
       </div>
     </section>
   );
