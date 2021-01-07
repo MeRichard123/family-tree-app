@@ -1,18 +1,47 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const HandleLogin = async (e: React.FormEvent) => {
-  await e.preventDefault();
-};
+import { useMessages, useAuthToken, useAuth } from "../Utils/store";
+import axios from "axios";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const messages = useMessages((state) => state.msg);
+  const setMsgs = useMessages((state) => state.setMsg);
+  const setToken = useAuthToken((state) => state.setToken);
+  const setAuthed = useAuth((state) => state.setAuthed);
+
+  setTimeout(() => {
+    setMsgs("");
+  }, 5000);
+
+  const HandleLogin = async (e: React.FormEvent) => {
+    await e.preventDefault();
+
+    const requestBody = {
+      username,
+      password,
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/auth/login",
+        requestBody
+      );
+      await setToken(res.data.token);
+      await setAuthed(true);
+      await setUsername("");
+      await setPassword("");
+      await window.location.replace("/home");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <section className="login">
       <h1 className="login__title">Welcome to TreeMe</h1>
       <div className="login__form-container">
         <form action="" className="login__form" onSubmit={HandleLogin}>
+          <div className="messages">{messages}</div>
           <input
             type="text"
             placeholder="Username"

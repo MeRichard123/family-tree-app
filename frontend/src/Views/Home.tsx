@@ -1,5 +1,6 @@
 import React from "react";
 import Tree from "../Components/Tree";
+import { useAuth } from "../Utils/store";
 
 const defaultTreeProps = {
   p_gfather: "P Grandfather",
@@ -16,6 +17,8 @@ const defaultTreeProps = {
 };
 
 const Home: React.FC = () => {
+  const isAuthenticated = useAuth((state) => state.isAuthenticated);
+  console.log(isAuthenticated);
   return (
     <section className="homepage">
       <div className="homepage__detail">

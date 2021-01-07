@@ -30,7 +30,7 @@ const Navigation: React.FC = () => {
           </>
         ) : (
           <li className="nav__list__item nav__list__item--button">
-            <Link className="nav__list__link" to="#">
+            <Link className="nav__list__link" to="/logout">
               Logout
             </Link>
           </li>

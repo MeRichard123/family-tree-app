@@ -263,6 +263,15 @@ footer a {
   margin: 10px;
 }
 
+.messages {
+  padding: 0.5rem 3rem;
+  color: #05c005;
+}
+
+.messages--err {
+  color: red;
+}
+
 .register {
   display: -webkit-box;
   display: -ms-flexbox;

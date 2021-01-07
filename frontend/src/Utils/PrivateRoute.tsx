@@ -7,7 +7,9 @@ type PrivateTypes = {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }: PrivateTypes) => {
-  const isAuthenticated: boolean = false;
+  let data = localStorage.getItem("isAuthenticated");
+
+  const { isAuthenticated } = JSON.parse(data || "{}");
   return (
     <Route
       {...rest}

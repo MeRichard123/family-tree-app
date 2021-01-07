@@ -25,11 +25,12 @@ def ListRoutes(req):
         "siblings 1": "/api/siblings/:name",
         "tree": "/api/tree/",
         "tree 1": "/api/tree/:id",
-        'auth': [
-        "Register":"api/auth/register",
-        "Login":"api/auth/login", 
-        "Get User Data":"api/auth/user",
-        "Logout":"api/auth/logout"]
+        'auth': {
+            "Register":"api/auth/register",
+            "Login":"api/auth/login", 
+            "Get User Data":"api/auth/user",
+            "Logout":"api/auth/logout"
+        }
     }
 
     return Response(routes)

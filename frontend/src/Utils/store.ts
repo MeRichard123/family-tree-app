@@ -11,6 +11,11 @@ type authState = {
   setAuthed: (value: boolean) => void;
 };
 
+type msgState = {
+  msg: string;
+  setMsg: (msg: string) => void;
+};
+
 export const useAuthToken = create<tokenState>(
   persist(
     (set) => ({
@@ -32,6 +37,19 @@ export const useAuth = create<authState>(
     }),
     {
       name: "isAuthenticated",
+      storage: localStorage,
+    }
+  )
+);
+
+export const useMessages = create<msgState>(
+  persist(
+    (set) => ({
+      msg: "",
+      setMsg: (msg) => set({ msg }),
+    }),
+    {
+      name: "messages",
       storage: localStorage,
     }
   )

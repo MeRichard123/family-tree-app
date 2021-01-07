@@ -32,8 +32,8 @@ const Tree: React.FC<names> = (props) => {
       <div className="log">You</div>
       <div className="apple">
         <ul>
-          {props.cousins.map((cousin) => (
-            <li>{cousin}</li>
+          {props.cousins.map((cousin, index) => (
+            <li key={index}>{cousin}</li>
           ))}
         </ul>
       </div>

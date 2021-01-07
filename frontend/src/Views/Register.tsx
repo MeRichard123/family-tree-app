@@ -1,19 +1,46 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const HandleRegister = async (e: React.FormEvent) => {
-  await e.preventDefault();
-};
+import { useMessages } from "../Utils/store";
+import axios from "axios";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<boolean>(false);
+
+  const messages = useMessages((state) => state.msg);
+  const setMsg = useMessages((state) => state.setMsg);
+
+  const HandleRegister = async (e: React.FormEvent) => {
+    await console.log("hello");
+    await e.preventDefault();
+    const requestBody = {
+      username,
+      email,
+      password,
+    };
+    try {
+      await axios.post("http://localhost:8000/api/auth/register", requestBody);
+      setMsg("User Created Successfully");
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      await window.location.replace("/login");
+    } catch (err) {
+      setMsg("There was an Error user not created");
+      setErrors(true);
+    }
+  };
+
   return (
     <section className="register">
       <h1 className="register__title">Welcome to TreeMe</h1>
       <div className="register__form-container">
         <form action="" className="register__form" onSubmit={HandleRegister}>
+          {errors && (
+            <div className="messages--err">Username or Password incorrect</div>
+          )}
           <input
             type="text"
             placeholder="Username"
