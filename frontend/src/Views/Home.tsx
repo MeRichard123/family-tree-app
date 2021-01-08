@@ -1,8 +1,9 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Tree from "../Components/Tree";
 import { useAuth } from "../Utils/store";
 
-const defaultTreeProps = {
+export const defaultTreeProps = {
   p_gfather: "P Grandfather",
   p_gmother: "P Mother",
   m_gfather: "M Grandfather",
@@ -18,7 +19,9 @@ const defaultTreeProps = {
 
 const Home: React.FC = () => {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
-  console.log(isAuthenticated);
+  if (isAuthenticated) {
+    return <Redirect to="/home" />;
+  }
   return (
     <section className="homepage">
       <div className="homepage__detail">

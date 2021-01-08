@@ -1,0 +1,34 @@
+.userpage {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+
+  &__title {
+    font-family: "Kanit", sans-serif;
+    font-weight: 200;
+    font-size: clamp(1.5rem, 2.2rem, 3rem);
+    margin: 30px 20px;
+    span {
+      text-decoration: underline;
+    }
+  }
+  &__instruction {
+    font-family: "Rubik";
+    font-size: 1.3rem;
+    margin-bottom: 50px;
+    @media screen and (max-width: 700px) {
+      font-size: 1rem;
+    }
+  }
+  &__settings {
+    position: fixed;
+    bottom: 10px;
+    cursor: pointer;
+    right: 4px;
+    img {
+      height: 40px;
+    }
+  }
+}

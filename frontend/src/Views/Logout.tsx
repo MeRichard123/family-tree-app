@@ -7,8 +7,6 @@ const Logout = () => {
   const setToken = useAuthToken((state) => state.setToken);
   const setAuthed = useAuth((state) => state.setAuthed);
 
-
-
   const logoutuser = async () => {
     await axios.post("http://localhost:8000/api/auth/logout", null, {
       headers: {
@@ -20,8 +18,9 @@ const Logout = () => {
     logoutuser();
     setToken("0");
     setAuthed(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <div>Logged out</div>;
+  return <div className="logout">You have been Logged out</div>;
 };
 
 export default Logout;

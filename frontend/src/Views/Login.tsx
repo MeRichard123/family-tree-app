@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAlert } from "react-alert";
 import { useMessages, useAuthToken, useAuth } from "../Utils/store";
 import axios from "axios";
 
 const Login: React.FC = () => {
+  // const setMsgs = useRef((msg: string) => {void} );
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const messages = useMessages((state) => state.msg);
@@ -11,9 +14,17 @@ const Login: React.FC = () => {
   const setToken = useAuthToken((state) => state.setToken);
   const setAuthed = useAuth((state) => state.setAuthed);
 
-  setTimeout(() => {
-    setMsgs("");
-  }, 5000);
+  const alert = useAlert();
+
+  useEffect(() => {
+    if (messages !== "") {
+      alert.success(messages);
+    }
+
+    setTimeout(() => {
+      setMsgs("");
+    }, 5000);
+  }, [messages, setMsgs, setToken, alert]);
 
   const HandleLogin = async (e: React.FormEvent) => {
     await e.preventDefault();
@@ -41,7 +52,6 @@ const Login: React.FC = () => {
       <h1 className="login__title">Welcome to TreeMe</h1>
       <div className="login__form-container">
         <form action="" className="login__form" onSubmit={HandleLogin}>
-          <div className="messages">{messages}</div>
           <input
             type="text"
             placeholder="Username"

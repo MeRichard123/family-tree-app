@@ -14,6 +14,7 @@ const Navigation: React.FC = () => {
           <h3 className="nav__brand__name">TreeMe</h3>
         </div>
       </Link>
+
       <ul className="nav__list">
         {!isAuthenticated ? (
           <>

@@ -31,6 +31,21 @@ footer a {
   color: inherit;
 }
 
+.logout {
+  min-height: 75.1vh;
+  overflow: hidden;
+  font-size: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -61,6 +76,9 @@ footer a {
 .nav__brand__name {
   font-family: "Italianno", cursive;
   font-size: 2rem;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
   font-weight: 200;
 }
 
@@ -546,5 +564,68 @@ footer a {
   -ms-grid-rows: (1fr)[6];
       grid-template-rows: repeat(6, 1fr);
       grid-template-areas: ". pgf pgm . . . mgm mgf ." ". . . . . . . . ." ". pu pa f . m ma mu ." ". . cousins . . . . . ." ". . . . log . . . .";
+}
+
+.userpage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.userpage__title {
+  font-family: "Kanit", sans-serif;
+  font-weight: 200;
+  font-size: clamp(1.5rem, 2.2rem, 3rem);
+  margin: 30px 20px;
+}
+
+.userpage__title span {
+  text-decoration: underline;
+}
+
+.userpage__instruction {
+  font-family: "Rubik";
+  font-size: 1.3rem;
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 700px) {
+  .userpage__instruction {
+    font-size: 1rem;
+  }
+}
+
+.userpage__settings {
+  position: fixed;
+  bottom: 10px;
+  cursor: pointer;
+  right: 4px;
+}
+
+.userpage__settings img {
+  height: 40px;
+}
+
+.loader {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2rem;
 }
 /*# sourceMappingURL=main.css.map */
