@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'knox',
     "api.apps.ApiConfig",
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'rest_framework_msf'
 ]
 
 REST_FRAMEWORK = {

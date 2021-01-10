@@ -1,0 +1,86 @@
+.modal-form {
+  display: flex;
+  color: #292f36;
+  font-family: "Rubik";
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  height: 100%;
+  margin: 40px;
+  &__title {
+    font-family: "Kanit";
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  &__parent-form {
+    width: 100%;
+    margin: 15px auto;
+    input:not(.modal-form__parent-form__button) {
+      padding: 10px 40px;
+      font-family: "Rubik";
+      font-size: 1rem;
+      width: 30%;
+      margin: 5px;
+      border: 1px solid black;
+    }
+    &__button {
+      all: initial;
+      background: #b2945b;
+      padding: 10px 40px;
+      font-family: "Rubik";
+      border-color: #b2945b;
+      margin: 5px;
+      cursor: pointer;
+    }
+  }
+}
+.member-form {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2px;
+  justify-content: center;
+}
+
+.member-box {
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+  width: 300px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ul {
+    height: 180px;
+    padding: 15px;
+    overflow-y: scroll;
+  }
+  .add-member {
+    all: initial;
+    background: #b2945b;
+    font-family: "Rubik";
+    text-align: center;
+    padding: 10px 0;
+    border-color: #b2945b;
+    margin: 5px 10px;
+    cursor: pointer;
+  }
+  .member {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px;
+    .buttons {
+      button {
+        border: 0;
+        background: #b6d369;
+        cursor: pointer;
+        padding: 5px 10px;
+        color: #292f36;
+        margin: 0 5px;
+        &:last-of-type {
+          background-color: #e17055;
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,21 @@ import { Redirect } from "react-router-dom";
 import Tree from "../Components/Tree";
 import { useAuth } from "../Utils/store";
 
-export const defaultTreeProps = {
+interface names {
+  p_gfather: string;
+  p_gmother: string;
+  m_gfather: string;
+  m_gmother: string;
+  p_uncle: string;
+  p_aunt: string;
+  father: string;
+  mother: string;
+  m_uncle: string;
+  m_aunt: string;
+  cousins: Array<string>;
+}
+
+export const defaultTreeProps: names = {
   p_gfather: "P Grandfather",
   p_gmother: "P Mother",
   m_gfather: "M Grandfather",

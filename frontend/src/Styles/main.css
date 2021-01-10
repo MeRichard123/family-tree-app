@@ -443,7 +443,7 @@ footer a {
   grid-area: cousins;
   width: 80px;
   margin-top: 22px;
-  height: 80px;
+  min-height: 80px;
   font-size: 0;
 }
 
@@ -615,6 +615,13 @@ footer a {
   height: 40px;
 }
 
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
 .loader {
   min-height: 100vh;
   display: -webkit-box;
@@ -627,5 +634,123 @@ footer a {
       -ms-flex-align: center;
           align-items: center;
   font-size: 2rem;
+}
+
+.modal-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: #292f36;
+  font-family: "Rubik";
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  margin: 40px;
+}
+
+.modal-form__title {
+  font-family: "Kanit";
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.modal-form__parent-form {
+  width: 100%;
+  margin: 15px auto;
+}
+
+.modal-form__parent-form input:not(.modal-form__parent-form__button) {
+  padding: 10px 40px;
+  font-family: "Rubik";
+  font-size: 1rem;
+  width: 30%;
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.modal-form__parent-form__button {
+  all: initial;
+  background: #b2945b;
+  padding: 10px 40px;
+  font-family: "Rubik";
+  border-color: #b2945b;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.member-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 2px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.member-box {
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+  width: 300px;
+  height: 250px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.member-box ul {
+  height: 180px;
+  padding: 15px;
+  overflow-y: scroll;
+}
+
+.member-box .add-member {
+  all: initial;
+  background: #b2945b;
+  font-family: "Rubik";
+  text-align: center;
+  padding: 10px 0;
+  border-color: #b2945b;
+  margin: 5px 10px;
+  cursor: pointer;
+}
+
+.member-box .member {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 2px;
+}
+
+.member-box .member .buttons button {
+  border: 0;
+  background: #b6d369;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: #292f36;
+  margin: 0 5px;
+}
+
+.member-box .member .buttons button:last-of-type {
+  background-color: #e17055;
 }
 /*# sourceMappingURL=main.css.map */
