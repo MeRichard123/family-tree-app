@@ -94,9 +94,11 @@
 }
 .p-uncle {
   grid-area: pu;
+  display: flex;
 }
 .p-aunt {
   grid-area: pa;
+  display: flex;
 }
 .father {
   grid-area: f;
@@ -106,9 +108,11 @@
 }
 .m-uncle {
   grid-area: mu;
+  display: flex;
 }
 .m-aunt {
   grid-area: ma;
+  display: flex;
 }
 .tree-container {
   margin: 10px 0;

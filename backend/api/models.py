@@ -6,12 +6,10 @@ SIDE_CHOICES = (
     ("Paternal", "Paternal"),
     ("Maternal","Maternal")
 )
-
-GRANDPARENT_CHOICES = (
-    ("Great", "Great"),
-    ("Regular","Regular")
+GPARENT_TYPE = (
+     ("Mother", "Mother"),
+    ("Father","Father")
 )
-
 
 class Aunt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -45,7 +43,7 @@ class GrandParent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     side = models.CharField(max_length=10, choices=SIDE_CHOICES, default="Maternal")
-    GType = models.CharField(max_length=15, choices=GRANDPARENT_CHOICES, default="Regular")
+    Gtype = models.CharField(max_length=10, choices=GPARENT_TYPE, default="Mother")
 
     def __str__(self):
         return self.name

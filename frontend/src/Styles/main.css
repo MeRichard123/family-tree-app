@@ -523,12 +523,18 @@ footer a {
   -ms-grid-row: 3;
   -ms-grid-column: 2;
   grid-area: pu;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .p-aunt {
   -ms-grid-row: 3;
   -ms-grid-column: 3;
   grid-area: pa;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .father {
@@ -547,12 +553,18 @@ footer a {
   -ms-grid-row: 3;
   -ms-grid-column: 8;
   grid-area: mu;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .m-aunt {
   -ms-grid-row: 3;
   -ms-grid-column: 7;
   grid-area: ma;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .tree-container {
@@ -658,6 +670,7 @@ footer a {
   font-family: "Kanit";
   font-weight: bold;
   font-size: 1.5rem;
+  margin: 0 0 30px 0;
 }
 
 .modal-form__parent-form {
@@ -678,10 +691,18 @@ footer a {
   all: initial;
   background: #b2945b;
   padding: 10px 40px;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
   font-family: "Rubik";
-  border-color: #b2945b;
+  border: 2px solid #b2945b;
+  color: white;
   margin: 5px;
   cursor: pointer;
+}
+
+.modal-form__parent-form__button:hover {
+  color: #b2945b;
+  background-color: white;
 }
 
 .member-form {
@@ -726,9 +747,17 @@ footer a {
   font-family: "Rubik";
   text-align: center;
   padding: 10px 0;
-  border-color: #b2945b;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+  color: white;
+  border: 2px solid #b2945b;
   margin: 5px 10px;
   cursor: pointer;
+}
+
+.member-box .add-member:hover {
+  color: #b2945b;
+  background-color: white;
 }
 
 .member-box .member {

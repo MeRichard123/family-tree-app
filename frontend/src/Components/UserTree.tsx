@@ -27,43 +27,56 @@ interface StateType {
   user: number;
 }
 
+interface GrandParentType {
+  id: number;
+  name: string;
+  side: string;
+  GType: string;
+  user: number;
+}
+
 const UserTree: React.FC<PropTypes> = ({ id }) => {
   const [aunts, setAunts] = useState<StateType[]>();
   const [uncles, setUncles] = useState<StateType[]>();
+  const [gparents, setGParents] = useState<GrandParentType[]>();
+
+  // Get User Token
 
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
+  const headers = { headers: { Authorization: `Token ${token}` } };
 
-  const getMember = async (type: String, member: String) => {
-    const { data } = await axios.get(
-      `http://localhost:8000/api/${type}/${member}`,
-      {
-        headers: { Authorization: `Token ${token}` },
-      }
-    );
-    return data;
-  };
+  // Fetch User Tree
 
   const getUserTree = async () => {
-    const { data } = await axios.get(`http://localhost:8000/api/tree/${id}`, {
-      headers: { Authorization: `Token ${token}` },
-    });
+    const { data } = await axios.get(
+      `http://localhost:8000/api/tree/${id}`,
+      headers
+    );
     return data[0];
   };
-  const { data, isLoading, isSuccess } = useQuery("getTree", getUserTree, {
+  const { data, isSuccess } = useQuery("getTree", getUserTree, {
     staleTime: 5000,
   });
   const TreeData: RootObject = data;
+
+  // Get All the Data
+
   useEffect(() => {
-    if (data) {
+    if (isSuccess) {
+      const getMember = async (type: String, member: String) => {
+        const { data } = await axios.get(
+          `http://localhost:8000/api/${type}/${member}`,
+          headers
+        );
+        return data;
+      };
+
       const GetUncles = (uncles: String[]) => {
         let allUncles: Array<StateType> = [];
         uncles?.forEach((uncle) => {
           getMember("uncles", uncle).then((res) => allUncles.push(...res));
         });
-        const paternalUncles = allUncles.filter(
-          (person) => person.side == "Paternal"
-        );
         return allUncles;
       };
 
@@ -72,23 +85,31 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
         aunts?.forEach((aunt) => {
           getMember("aunts", aunt).then((res) => allAunts.push(...res));
         });
-        const PaternalAunts = allAunts.filter(
-          (person) => person.side == "Paternal"
-        );
         return allAunts;
       };
 
-      const res = GetUncles(data?.uncles);
-      const results = GetAunts(data?.aunts);
-      setAunts(results);
-      setUncles(res);
-    }
-  }, [data]);
+      const GetGrandparents = (grandparents: String[]) => {
+        let allGParents: Array<GrandParentType> = [];
+        grandparents?.forEach((gparent) => {
+          getMember("grandparents", gparent).then((res) =>
+            allGParents.push(...res)
+          );
+        });
+        return allGParents;
+      };
 
-  const paternalAunts = aunts?.filter((person) => person.side == "Paternal");
-  const maternalAunts = aunts?.filter((person) => person.side == "Maternal");
-  const paternalUncles = uncles?.filter((person) => person.side == "Paternal");
-  const maternalUncles = uncles?.filter((person) => person.side == "Maternal");
+      setUncles(GetUncles(data?.uncles));
+      setAunts(GetAunts(data?.aunts));
+      setGParents(GetGrandparents(data?.grandparents));
+    }
+  }, [data, isSuccess, token]);
+
+  const paternalAunts = aunts?.filter((person) => person.side === "Paternal");
+  const maternalAunts = aunts?.filter((person) => person.side === "Maternal");
+  const paternalUncles = uncles?.filter((person) => person.side === "Paternal");
+  const maternalUncles = uncles?.filter((person) => person.side === "Maternal");
+  const MGParents = gparents?.filter((person) => person.side === "Maternal");
+  const PGParents = gparents?.filter((person) => person.side === "Paternal");
 
   return (
     <>
@@ -98,25 +119,41 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
         </div>
       ) : (
         <div className="tree-container">
-          <div className="p-gfather leaf left"></div>
-          <div className="p-gmother leaf left"></div>
-          <div className="m-gfather leaf right"></div>
-          <div className="m-gmother leaf right"></div>
+          <div className="p-gfather leaf left">
+            {PGParents ? PGParents[0]?.name : ""}
+          </div>
+          <div className="p-gmother leaf left">
+            {PGParents ? PGParents[1]?.name : ""}
+          </div>
+          <div className="m-gfather leaf right">
+            {MGParents ? MGParents[0]?.name : ""}
+          </div>
+          <div className="m-gmother leaf right">
+            {MGParents ? MGParents[1]?.name : ""}
+          </div>
 
-          {paternalUncles?.map((uncle) => (
-            <div className="p-uncle leaf left">{uncle.name}</div>
-          ))}
-          {paternalAunts?.map((aunt) => (
-            <div className="p-aunt leaf left">{aunt.name}</div>
-          ))}
+          <div className="p-uncle">
+            {paternalUncles?.map((uncle) => (
+              <div className="leaf left">{uncle.name}</div>
+            ))}
+          </div>
+          <div className="p-aunt">
+            {paternalAunts?.map((aunt) => (
+              <div className="leaf left">{aunt.name}</div>
+            ))}
+          </div>
           <div className="father leaf left">{TreeData.father}</div>
           <div className="mother leaf right">{TreeData.mother}</div>
-          {maternalUncles?.map((uncle) => (
-            <div className="m-uncle leaf right">{uncle.name}</div>
-          ))}
-          {maternalAunts?.map((aunt) => (
-            <div className="m-aunt leaf right">{aunt.name}</div>
-          ))}
+          <div className="m-uncle">
+            {maternalUncles?.map((uncle) => (
+              <div className="leaf right">{uncle.name}</div>
+            ))}
+          </div>
+          <div className="m-aunt">
+            {maternalAunts?.map((aunt) => (
+              <div className="leaf right">{aunt.name}</div>
+            ))}
+          </div>
 
           <div className="log">You</div>
           <div className="apple">
