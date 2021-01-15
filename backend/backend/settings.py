@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'knox',
     "api.apps.ApiConfig",
     'users.apps.UsersConfig',
-    'rest_framework_msf'
 ]
 
 REST_FRAMEWORK = {
