@@ -1,6 +1,6 @@
 # Family Tree App API Docs
 
-- [<- Back](../../)
+- [<- Back](../../../)
 - [Frontend](/docs/Frontend.md)
 
 ### Routes
@@ -202,7 +202,7 @@ class GrandparentViewset(viewsets.ViewSet):
 
 # Authentication
 
-## For Authentication I used Django Knox.
+### For Authentication I used Django Knox.
 
 This object inherited from 'GenericApiView', we serialize the data and generate a token from KnoxAuth Tokens. We grab the second element in AuthToken which will be the token otherwise django can't serialize the data.
 
