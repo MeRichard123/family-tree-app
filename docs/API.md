@@ -1,7 +1,7 @@
 # Family Tree App API Docs
 
 - [<- Back](/)
-- [Frontend](/Frontend.md)
+- [Frontend](/docs/Frontend.md)
 
 ### Routes
 
