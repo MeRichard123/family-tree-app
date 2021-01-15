@@ -43,4 +43,4 @@ To run the react app run `npm start` in the frontend directory
 
 # Documentation
 
-- [API](./blob/main/docs/API.md)
+- [API](/docs/API.md)
