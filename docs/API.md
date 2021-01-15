@@ -1,6 +1,9 @@
 # Family Tree App API Docs
 
-## Routes
+- [<- Back](/)
+- [Frontend](/Frontend.md)
+
+### Routes
 
 All routes (apart from login and register) are private and require Authentication headers
 
@@ -203,7 +206,8 @@ class GrandparentViewset(viewsets.ViewSet):
 
 This object inherited from 'GenericApiView', we serialize the data and generate a token from KnoxAuth Tokens. We grab the second element in AuthToken which will be the token otherwise django can't serialize the data.
 
-```
+```py
+    ...
     def post(self, req, *args, **kwargs):
         serializer = self.get_serializer(data=req.data)
         serializer.is_valid(raise_exception=True)
