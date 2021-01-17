@@ -46,8 +46,11 @@ class AuntViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, req, pk):
-        field_name = "name"
-        queryset = Aunt.objects.filter(**{field_name: pk})
+        if len(pk) > 1:
+            field_name = "name"
+            queryset = Aunt.objects.filter(**{field_name: pk})
+        else:
+            queryset = Aunt.objects.filter(pk =  pk)
         serializer = AuntSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -102,8 +105,12 @@ class UncleViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, req, pk):
-        field_name = "name"
-        queryset = Uncle.objects.filter(**{field_name: pk})
+        if len(pk) > 1:
+            field_name = "name"
+            queryset = Uncle.objects.filter(**{field_name: pk})
+        else:
+            queryset = Uncle.objects.filter(pk = pk)
+            
         serializer = UncleSerializer(queryset, many=True)
         return Response(serializer.data)
     

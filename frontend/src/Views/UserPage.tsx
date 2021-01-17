@@ -72,6 +72,7 @@ const UserPage = () => {
         {data && (
           <UserInfoForm
             username={data.username[0].toUpperCase() + data.username.slice(1)}
+            userId={data.id}
           />
         )}
       </ReactModal>

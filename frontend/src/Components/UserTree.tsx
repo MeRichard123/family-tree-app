@@ -98,9 +98,9 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
         return allGParents;
       };
 
-      setUncles(GetUncles(data?.uncles));
-      setAunts(GetAunts(data?.aunts));
-      setGParents(GetGrandparents(data?.grandparents));
+      setUncles(GetUncles(TreeData?.uncles));
+      setAunts(GetAunts(TreeData?.aunts));
+      setGParents(GetGrandparents(TreeData?.grandparents));
     }
   }, [data, isSuccess, token]);
 
@@ -156,6 +156,7 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
           </div>
 
           <div className="log">You</div>
+
           <div className="apple">
             <ul>
               {TreeData.cousins?.map((cousin, index) => (

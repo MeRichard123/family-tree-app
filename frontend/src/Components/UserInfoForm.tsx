@@ -5,6 +5,7 @@ import AddMember from "./AddMember";
 
 interface props {
   username: string;
+  userId: number;
 }
 
 const routes: Array<string> = [
@@ -15,7 +16,7 @@ const routes: Array<string> = [
   "cousins",
 ];
 
-const UserInfoForm: React.FC<props> = ({ username }) => {
+const UserInfoForm: React.FC<props> = ({ username, userId }) => {
   const [mother, setMother] = useState<string>("");
   const [father, setFather] = useState<string>("");
 
@@ -45,7 +46,7 @@ const UserInfoForm: React.FC<props> = ({ username }) => {
       </h3>
       <div className="member-form">
         {routes.map((route, index) => (
-          <AddMember type={route} key={index} />
+          <AddMember type={route} key={index} userId={userId} />
         ))}
       </div>
 
