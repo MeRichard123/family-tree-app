@@ -1,4 +1,4 @@
-# Family Tree App API V1 Docs
+# Family Tree App API V2 Docs
 
 - [<- Back](../../../)
 - [Frontend](/docs/Frontend.md)
