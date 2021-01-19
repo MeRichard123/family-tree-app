@@ -114,6 +114,23 @@
   grid-area: ma;
   display: flex;
 }
+
+.siblings {
+  grid-area: siblings;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .sibling {
+    margin: 5px;
+    padding: 10px;
+    font-size: calc(1vw - 0.1rem);
+    background-color: #b6d369;
+    @media screen and (max-width: 700px) {
+      font-size: 0.5rem;
+    }
+  }
+}
+
 .tree-container {
   margin: 10px 0;
   display: grid;
@@ -124,5 +141,6 @@
     ". . . . . . . . ."
     ". pu pa f . m ma mu ."
     ". . cousins . . . . . ."
-    ". . . . log . . . .";
+    ". . . . log . . . ."
+    ". siblings siblings siblings siblings siblings siblings siblings .";
 }

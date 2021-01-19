@@ -5,7 +5,6 @@ import Navigation from "./Components/Navigation";
 import { Home, Login, Register, UserPage, Logout } from "./Views";
 import Footer from "./Components/Footer";
 import PrivateRoute from "./Utils/PrivateRoute";
-
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {

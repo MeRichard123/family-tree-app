@@ -189,7 +189,7 @@ class GrandparentViewset(viewsets.ViewSet):
 
 
 class FamilyTreeViewset(viewsets.ViewSet):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, req):
         queryset = FamilyTree.objects.filter(user=req.user)
@@ -197,9 +197,30 @@ class FamilyTreeViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, req, pk):
+        cousinQS = Cousin.objects.filter(user=req.user)
+        siblingQS = Sibling.objects.filter(user=req.user)
+        auntsQS = Aunt.objects.filter(user=req.user)
+        uncleQS = Uncle.objects.filter(user=req.user)
+        grandparentQS = GrandParent.objects.filter(user=req.user)
         queryset = FamilyTree.objects.filter(pk=pk)
+
+        cousinData = CousinSerializer(cousinQS, many=True)
+        siblingData = SiblingSerializer(siblingQS, many=True)
+        auntData = AuntSerializer(auntsQS, many=True)
+        uncleData = UncleSerializer(uncleQS, many=True)
+        grandparentData = GrandparentSerializer(grandparentQS, many=True)
         serializer = FamilyTreeSerializer(queryset, many=True)
-        return Response(serializer.data)
+
+        return Response({
+            'user': serializer.data[0].get("user"),
+            'mother': serializer.data[0].get("mother"),
+            'father': serializer.data[0].get("father"),
+            "cousins": cousinData.data,
+            "siblings": siblingData.data,
+            "aunts": auntData.data,
+            "uncles": uncleData.data,
+            "grandparents": grandparentData.data
+        })
 
     def create(self, req):
         serializer = FamilyTreeSerializer(data=req.data)

@@ -15,7 +15,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/aunts/**      | Add an Aunt to the user db        |
 | GET    | **/api/aunts/:name** | Get a single Aunt by name         |
 | DELETE | **/api/aunts/:name** | Delete a single aunt              |
-| PUT    | **/api/aunts/:name** | Update a single aunt              |
 
 ## **Uncles**
 
@@ -24,8 +23,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | GET    | **/api/uncles/**      | Get all the logged in users Uncles |
 | POST   | **/api/uncles/**      | Add an Uncle to the user db        |
 | GET    | **/api/uncles/:name** | Get a single Uncle by name         |
-| DELETE | **/api/uncles/:name** | Delete a single Uncle              |
-| PUT    | **/api/uncles/:name** | Update a single Uncle              |
 
 ## **Cousins**
 
@@ -35,7 +32,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/cousins/**      | Add a Cousin to the user db         |
 | GET    | **/api/cousins/:name** | Get a single Cousin by name         |
 | DELETE | **/api/cousins/:name** | Delete a single Cousin              |
-| PUT    | **/api/cousins/:name** | Update a single Cousin              |
 
 ## **Grandparents**
 
@@ -45,7 +41,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/grandparents/**      | Add a Grandparent to the user db         |
 | GET    | **/api/grandparents/:name** | Get a single Grandparent by name         |
 | DELETE | **/api/grandparents/:name** | Delete a single Grandparent              |
-| PUT    | **/api/grandparents/:name** | Update a single Grandparent              |
 
 ## **Siblings**
 
@@ -55,7 +50,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/siblings/**      | Add a Sibling to the user db         |
 | GET    | **/api/siblings/:name** | Get a single Sibling by name         |
 | DELETE | **/api/siblings/:name** | Delete a single Sibling              |
-| PUT    | **/api/siblings/:name** | Update a single Sibling              |
 
 ## **Family Tree**
 
@@ -65,7 +59,6 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/tree/**    | Add a Family Tree to the user db    |
 | GET    | **/api/tree/:id** | Get a single Family Tree by user ID |
 | DELETE | **/api/tree/:id** | Delete a single Family Tree         |
-| PUT    | **/api/tree/:id** | Update a single Family Tree         |
 
 # Auth Routes
 
@@ -116,11 +109,6 @@ class FamilyTree(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     mother = models.CharField(max_length=100)
     father = models.CharField(max_length=100)
-    siblings = models.ManyToManyField(Sibling)
-    cousins = models.ManyToManyField(Cousin)
-    aunts = models.ManyToManyField(Aunt)
-    uncles = models.ManyToManyField(Uncle)
-    grandparents = models.ManyToManyField(GrandParent)
 
     def __str__(self):
         return f"{self.user.username}'s Family Tree"
@@ -133,21 +121,6 @@ class AuntSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aunt
         fields = "__all__"
-```
-
-To Serializer the Family Tree Model I decided to use a SlugRelatedField.
-This allows a field to be returned in the response object rather than just the id
-
-```python
-class FamilyTreeSerializer(serializers.ModelSerializer):
-    cousins = serializers.SlugRelatedField(read_only=True, many=True, slug_field="name")
-    aunts = serializers.SlugRelatedField(read_only=True, many=True, slug_field="name")
-    uncles = serializers.SlugRelatedField(read_only=True, many=True, slug_field="name")
-    grandparents = serializers.SlugRelatedField(read_only=True, many=True, slug_field="name")
-    siblings = serializers.SlugRelatedField(read_only=True, many=True, slug_field="name")
-    class Meta:
-        model = FamilyTree
-        fields = ("user","mother","father","siblings","cousins","aunts","uncles","grandparents")
 ```
 
 The URL Router - I used a rest framework default router rather than putting everything in 'urlpatterns', purely because it looks neater and I used Viewsets so I had the option to.
@@ -197,6 +170,59 @@ class GrandparentViewset(viewsets.ViewSet):
         member = GrandParent.objects.filter(**{field_name: pk})
         member.delete()
         return Response(data={"Member Removed"}, status=status.HTTP_204_NO_CONTENT)
+
+```
+
+The Family tree had redundant fields which I didn't use on the frontend so it was updated:
+
+```py
+
+class FamilyTreeViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, req):
+        queryset = FamilyTree.objects.filter(user=req.user)
+        serializer = FamilyTreeSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, req, pk):
+        cousinQS = Cousin.objects.filter(user=req.user)
+        siblingQS = Sibling.objects.filter(user=req.user)
+        auntsQS = Aunt.objects.filter(user=req.user)
+        uncleQS = Uncle.objects.filter(user=req.user)
+        grandparentQS = GrandParent.objects.filter(user=req.user)
+        queryset = FamilyTree.objects.filter(pk=pk)
+
+        cousinData = CousinSerializer(cousinQS, many=True)
+        siblingData = SiblingSerializer(siblingQS, many=True)
+        auntData = AuntSerializer(auntsQS, many=True)
+        uncleData = UncleSerializer(uncleQS, many=True)
+        grandparentData = GrandparentSerializer(grandparentQS, many=True)
+        serializer = FamilyTreeSerializer(queryset, many=True)
+
+        return Response({
+            'user': serializer.data[0].get("user"),
+            'mother': serializer.data[0].get("mother"),
+            'father': serializer.data[0].get("father"),
+            "cousins": cousinData.data,
+            "siblings": siblingData.data,
+            "aunts": auntData.data,
+            "uncles": uncleData.data,
+            "grandparents": grandparentData.data
+        })
+
+    def create(self, req):
+        serializer = FamilyTreeSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, req, pk):
+        user_tree = FamilyTree.objects.filter(user=req)
+        user_tree.delete()
+        return Response(data={"Tree Deleted"}, status=status.HTTP_204_NO_CONTENT)
+
 
 ```
 

@@ -567,6 +567,35 @@ footer a {
   display: flex;
 }
 
+.siblings {
+  -ms-grid-row: 6;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 7;
+  grid-area: siblings;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.siblings .sibling {
+  margin: 5px;
+  padding: 10px;
+  font-size: calc(1vw - 0.1rem);
+  background-color: #b6d369;
+}
+
+@media screen and (max-width: 700px) {
+  .siblings .sibling {
+    font-size: 0.5rem;
+  }
+}
+
 .tree-container {
   margin: 10px 0;
   display: -ms-grid;
@@ -575,7 +604,7 @@ footer a {
       grid-template-columns: repeat(9, 1fr);
   -ms-grid-rows: (1fr)[6];
       grid-template-rows: repeat(6, 1fr);
-      grid-template-areas: ". pgf pgm . . . mgm mgf ." ". . . . . . . . ." ". pu pa f . m ma mu ." ". . cousins . . . . . ." ". . . . log . . . .";
+      grid-template-areas: ". pgf pgm . . . mgm mgf ." ". . . . . . . . ." ". pu pa f . m ma mu ." ". . cousins . . . . . ." ". . . . log . . . ." ". siblings siblings siblings siblings siblings siblings siblings .";
 }
 
 .userpage {

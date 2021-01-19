@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { defaultTreeProps } from "../Views/Home";
@@ -12,11 +12,11 @@ interface RootObject {
   user: number;
   mother: string;
   father: string;
-  cousins: string[];
-  siblings: string[];
-  aunts: string[];
-  uncles: string[];
-  grandparents: string[];
+  cousins: Array<StateType>;
+  siblings: Array<StateType>;
+  aunts: Array<StateType>;
+  uncles: Array<StateType>;
+  grandparents: Array<GrandParentType>;
 }
 
 interface StateType {
@@ -36,10 +36,6 @@ interface GrandParentType {
 }
 
 const UserTree: React.FC<PropTypes> = ({ id }) => {
-  const [aunts, setAunts] = useState<StateType[]>();
-  const [uncles, setUncles] = useState<StateType[]>();
-  const [gparents, setGParents] = useState<GrandParentType[]>();
-
   // Get User Token
 
   let token = localStorage.getItem("token");
@@ -53,67 +49,35 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
       `http://localhost:8000/api/tree/${id}`,
       headers
     );
-    return data[0];
+    return data;
   };
   const { data, isSuccess } = useQuery("getTree", getUserTree, {
-    staleTime: 5000,
+    refetchInterval: 100000,
   });
   const TreeData: RootObject = data;
 
-  // Get All the Data
-
-  useEffect(() => {
-    if (isSuccess) {
-      const getMember = async (type: String, member: String) => {
-        const { data } = await axios.get(
-          `http://localhost:8000/api/${type}/${member}`,
-          headers
-        );
-        return data;
-      };
-
-      const GetUncles = (uncles: String[]) => {
-        let allUncles: Array<StateType> = [];
-        uncles?.forEach((uncle) => {
-          getMember("uncles", uncle).then((res) => allUncles.push(...res));
-        });
-        return allUncles;
-      };
-
-      const GetAunts = (aunts: String[]) => {
-        let allAunts: Array<StateType> = [];
-        aunts?.forEach((aunt) => {
-          getMember("aunts", aunt).then((res) => allAunts.push(...res));
-        });
-        return allAunts;
-      };
-
-      const GetGrandparents = (grandparents: String[]) => {
-        let allGParents: Array<GrandParentType> = [];
-        grandparents?.forEach((gparent) => {
-          getMember("grandparents", gparent).then((res) =>
-            allGParents.push(...res)
-          );
-        });
-        return allGParents;
-      };
-
-      setUncles(GetUncles(TreeData?.uncles));
-      setAunts(GetAunts(TreeData?.aunts));
-      setGParents(GetGrandparents(TreeData?.grandparents));
-    }
-  }, [data, isSuccess, token]);
-
-  const paternalAunts = aunts?.filter((person) => person.side === "Paternal");
-  const maternalAunts = aunts?.filter((person) => person.side === "Maternal");
-  const paternalUncles = uncles?.filter((person) => person.side === "Paternal");
-  const maternalUncles = uncles?.filter((person) => person.side === "Maternal");
-  const MGParents = gparents?.filter((person) => person.side === "Maternal");
-  const PGParents = gparents?.filter((person) => person.side === "Paternal");
+  const paternalAunts = TreeData?.aunts?.filter(
+    (person) => person.side === "Paternal"
+  );
+  const maternalAunts = TreeData?.aunts?.filter(
+    (person) => person.side === "Maternal"
+  );
+  const paternalUncles = TreeData?.uncles?.filter(
+    (person) => person.side === "Paternal"
+  );
+  const maternalUncles = TreeData?.uncles?.filter(
+    (person) => person.side === "Maternal"
+  );
+  const MGParents = TreeData?.grandparents?.filter(
+    (person) => person.side === "Maternal"
+  );
+  const PGParents = TreeData?.grandparents?.filter(
+    (person) => person.side === "Paternal"
+  );
 
   return (
     <>
-      {!data ? (
+      {!TreeData && !isSuccess ? (
         <div className="tree">
           <Tree {...defaultTreeProps} />
         </div>
@@ -134,24 +98,32 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
 
           <div className="p-uncle">
             {paternalUncles?.map((uncle) => (
-              <div className="leaf left">{uncle.name}</div>
+              <div className="leaf left" key={uncle.id}>
+                {uncle.name}
+              </div>
             ))}
           </div>
           <div className="p-aunt">
             {paternalAunts?.map((aunt) => (
-              <div className="leaf left">{aunt.name}</div>
+              <div className="leaf left" key={aunt.id}>
+                {aunt.name}
+              </div>
             ))}
           </div>
           <div className="father leaf left">{TreeData.father}</div>
           <div className="mother leaf right">{TreeData.mother}</div>
           <div className="m-uncle">
             {maternalUncles?.map((uncle) => (
-              <div className="leaf right">{uncle.name}</div>
+              <div className="leaf right" key={uncle.id}>
+                {uncle.name}
+              </div>
             ))}
           </div>
           <div className="m-aunt">
             {maternalAunts?.map((aunt) => (
-              <div className="leaf right">{aunt.name}</div>
+              <div className="leaf right" key={aunt.id}>
+                {aunt.name}
+              </div>
             ))}
           </div>
 
@@ -159,10 +131,17 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
 
           <div className="apple">
             <ul>
-              {TreeData.cousins?.map((cousin, index) => (
-                <li key={index}>{cousin}</li>
+              {TreeData.cousins?.map((cousin) => (
+                <li key={cousin.id}>{cousin.name}</li>
               ))}
             </ul>
+          </div>
+          <div className="siblings">
+            {TreeData.siblings?.map((sibling) => (
+              <div className="sibling" key={sibling.id}>
+                {sibling.name}
+              </div>
+            ))}
           </div>
         </div>
       )}

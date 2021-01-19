@@ -59,11 +59,6 @@ class FamilyTree(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     mother = models.CharField(max_length=100)
     father = models.CharField(max_length=100)
-    siblings = models.ManyToManyField(Sibling)
-    cousins = models.ManyToManyField(Cousin)
-    aunts = models.ManyToManyField(Aunt)
-    uncles = models.ManyToManyField(Uncle)
-    grandparents = models.ManyToManyField(GrandParent)
 
     def __str__(self):
         return f"{self.user.username}'s Family Tree"

@@ -6,7 +6,6 @@ import settings from "../Assets/settings.svg";
 import ReactModal from "react-modal";
 import UserInfoForm from "../Components/UserInfoForm";
 import UserTree from "../Components/UserTree";
-import Tree from "../Components/Tree";
 
 interface names {
   p_gfather: string;
@@ -37,7 +36,7 @@ export const defaultTreeProps: names = {
 };
 
 const UserPage = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
 
@@ -57,6 +56,7 @@ const UserPage = () => {
       {isLoading && <Loading />}
       <ReactModal
         isOpen={modalIsOpen}
+        ariaHideApp={false}
         onRequestClose={() => setModalIsOpen(false)}
         style={{
           overlay: { zIndex: 999 },
@@ -81,7 +81,9 @@ const UserPage = () => {
         <div className="userpage">
           <div
             className="userpage__settings"
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {
+              setModalIsOpen(true);
+            }}
           >
             <img src={settings} alt="" />
           </div>
@@ -95,11 +97,8 @@ const UserPage = () => {
           <p className="userpage__instruction">
             Hit settings to add your family members
           </p>
-          {modalIsOpen ? (
-            <Tree {...defaultTreeProps} />
-          ) : (
-            <UserTree id={data.id} />
-          )}
+
+          <UserTree id={data.id} />
         </div>
       )}
     </>

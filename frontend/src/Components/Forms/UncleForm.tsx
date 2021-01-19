@@ -12,21 +12,24 @@ const UncleForm: React.FC<props> = ({ userId }) => {
 
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
-  const CreateUncle = async () => {
+  const CreateUncle = async (e: React.FormEvent) => {
+    e.preventDefault();
     let requestObject = {
       name,
       side,
       spouse,
       user: userId,
     };
-    await axios.post("http://localhost:8000/api/uncles", requestObject, {
+    await axios.post("http://localhost:8000/api/uncles/", requestObject, {
       headers: { Authorization: `token ${token}` },
     });
+    setName("");
+    setSpouse("");
   };
   return (
     <div className="memberadd-form">
       <h2 className="memberadd-form__title">Add a New uncle</h2>
-      <form action="" className="memberadd-form__form">
+      <form action="" className="memberadd-form__form" onSubmit={CreateUncle}>
         <label htmlFor="nameInput">Name:</label>
         <input
           type="text"

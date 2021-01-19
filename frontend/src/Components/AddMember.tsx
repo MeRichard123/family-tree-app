@@ -39,6 +39,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
     <div className="member-box">
       <ReactModal
         isOpen={modalIsOpen}
+        ariaHideApp={false}
         onRequestClose={() => setModalIsOpen(false)}
         style={{
           overlay: { zIndex: 999 },
@@ -57,8 +58,8 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
       {isLoading && <p>Loading</p>}
       {data ? (
         <ul>
-          {data.map((member: any) => (
-            <div className="member">
+          {data.map((member: any, index: number) => (
+            <div className="member" key={index}>
               <li key={member.id}>{member.name}</li>
               <div className="buttons">
                 <button onClick={() => RemoveMember(member.name)}>

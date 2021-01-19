@@ -15,8 +15,8 @@ interface props {
 const MemberChangeForm: React.FC<props> = ({ type, userId }) => {
   return (
     <div className="modal-form">
-      {type === "cousins" && <CousinForm />}
-      {type === "aunts" && <AuntForm />}
+      {type === "cousins" && <CousinForm userId={userId} />}
+      {type === "aunts" && <AuntForm userId={userId} />}
       {type === "grandparents" && <GrandParentForm />}
       {type === "siblings" && <SiblingForm />}
       {type === "uncles" && <UncleForm userId={userId} />}
