@@ -34,6 +34,7 @@ const UncleForm: React.FC<props> = ({ userId }) => {
         <input
           type="text"
           id="nameInput"
+          required
           value={name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)

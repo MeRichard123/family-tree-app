@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../Utils/Loading";
 import settings from "../Assets/settings.svg";
-import ReactModal from "react-modal";
-import UserInfoForm from "../Components/UserInfoForm";
 import UserTree from "../Components/UserTree";
 
 interface names {
@@ -36,7 +35,6 @@ export const defaultTreeProps: names = {
 };
 
 const UserPage = () => {
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
 
@@ -54,39 +52,15 @@ const UserPage = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ReactModal
-        isOpen={modalIsOpen}
-        ariaHideApp={false}
-        onRequestClose={() => setModalIsOpen(false)}
-        style={{
-          overlay: { zIndex: 999 },
-          content: { zIndex: 999 },
-        }}
-      >
-        <div onClick={() => setModalIsOpen(false)} className="close-btn">
-          <img
-            src="https://icongr.am/feather/x.svg?size=25&color=currentColor"
-            alt=""
-          />
-        </div>
-        {data && (
-          <UserInfoForm
-            username={data.username[0].toUpperCase() + data.username.slice(1)}
-            userId={data.id}
-          />
-        )}
-      </ReactModal>
 
       {isSuccess && (
         <div className="userpage">
-          <div
-            className="userpage__settings"
-            onClick={() => {
-              setModalIsOpen(true);
-            }}
-          >
-            <img src={settings} alt="" />
-          </div>
+          <Link to="/settings">
+            <div className="userpage__settings">
+              <img src={settings} alt="" />
+            </div>
+          </Link>
+
           <h1 className="userpage__title">
             Welcome,{" "}
             <span>

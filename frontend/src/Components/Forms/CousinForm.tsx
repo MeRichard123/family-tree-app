@@ -26,6 +26,7 @@ const CousinForm: React.FC<props> = ({ userId }) => {
   token = JSON.parse(token || "{}").token;
   const CreateCousin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     let motherId = "";
     let fatherId = "";
     if (Father === "None") {
@@ -50,9 +51,9 @@ const CousinForm: React.FC<props> = ({ userId }) => {
       Father: fatherId || "",
       Mother: motherId || "",
     };
-    await axios.post("http://localhost:8000/api/cousins/", requestObject, {
-      headers: { Authorization: `token ${token}` },
-    });
+    // await axios.post("http://localhost:8000/api/cousins/", requestObject, {
+    //   headers: { Authorization: `token ${token}` },
+    // });
 
     setName("");
     setMother("None");
@@ -87,6 +88,7 @@ const CousinForm: React.FC<props> = ({ userId }) => {
         <input
           type="text"
           id="nameInput"
+          required
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)

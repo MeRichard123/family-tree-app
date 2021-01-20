@@ -17,8 +17,8 @@ const MemberChangeForm: React.FC<props> = ({ type, userId }) => {
     <div className="modal-form">
       {type === "cousins" && <CousinForm userId={userId} />}
       {type === "aunts" && <AuntForm userId={userId} />}
-      {type === "grandparents" && <GrandParentForm />}
-      {type === "siblings" && <SiblingForm />}
+      {type === "grandparents" && <GrandParentForm userId={userId} />}
+      {type === "siblings" && <SiblingForm userId={userId} />}
       {type === "uncles" && <UncleForm userId={userId} />}
     </div>
   );
