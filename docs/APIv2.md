@@ -59,6 +59,7 @@ All routes (apart from login and register) are private and require Authenticatio
 | POST   | **/api/tree/**    | Add a Family Tree to the user db    |
 | GET    | **/api/tree/:id** | Get a single Family Tree by user ID |
 | DELETE | **/api/tree/:id** | Delete a single Family Tree         |
+| PUT    | **/api/tree/:id** | Update a single Family Tree         |
 
 # Auth Routes
 
@@ -216,6 +217,14 @@ class FamilyTreeViewset(viewsets.ViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, req, pk):
+        instance = FamilyTree.objects.get(id=pk)
+        serializer = FamilyTreeSerializer(instance, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data":"Tree Updated"}, status=status.HTTP_204_NO_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, req, pk):

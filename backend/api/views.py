@@ -228,6 +228,14 @@ class FamilyTreeViewset(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, req, pk):
+        instance = FamilyTree.objects.get(id=pk)
+        serializer = FamilyTreeSerializer(instance, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data":"Tree Updated"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, req, pk):
         user_tree = FamilyTree.objects.filter(user=req)
