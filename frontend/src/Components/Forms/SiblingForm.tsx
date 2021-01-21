@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAlert } from "react-alert";
 
 interface props {
   userId: number;
@@ -7,6 +8,7 @@ interface props {
 
 const SiblingForm: React.FC<props> = ({ userId }) => {
   const [name, setName] = useState<string>("");
+  const alert = useAlert();
 
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
@@ -16,9 +18,14 @@ const SiblingForm: React.FC<props> = ({ userId }) => {
       name,
       user: userId,
     };
-    await axios.post("http://localhost:8000/api/siblings/", requestObject, {
-      headers: { Authorization: `token ${token}` },
-    });
+    try {
+      await axios.post("http://localhost:8000/api/siblings/", requestObject, {
+        headers: { Authorization: `token ${token}` },
+      });
+      alert.success("Sibling Added");
+    } catch {
+      alert.error("There was an Error");
+    }
 
     setName("");
   };

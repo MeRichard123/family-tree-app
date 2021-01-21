@@ -51,10 +51,11 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
     );
     return data;
   };
-  const { data, isSuccess } = useQuery("getTree", getUserTree, {
-    refetchInterval: 100000,
-  });
+  const { data, isSuccess } = useQuery("getTree", getUserTree);
+
   const TreeData: RootObject = data;
+
+  // Filter Data
 
   const paternalAunts = TreeData?.aunts?.filter(
     (person) => person.side === "Paternal"
@@ -73,6 +74,12 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
   );
   const PGParents = TreeData?.grandparents?.filter(
     (person) => person.side === "Paternal"
+  );
+  const PCousins = TreeData?.cousins?.filter(
+    (person) => person.side === "Paternal"
+  );
+  const MCousins = TreeData?.cousins.filter(
+    (person) => person.side === "Maternal"
   );
 
   return (
@@ -129,13 +136,24 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
 
           <div className="log">You</div>
 
-          <div className="apple">
-            <ul>
-              {TreeData.cousins?.map((cousin) => (
-                <li key={cousin.id}>{cousin.name}</li>
-              ))}
-            </ul>
-          </div>
+          {MCousins.length > 0 && (
+            <div className="apple maternal-apple">
+              <ul>
+                {MCousins.map((cousin) => (
+                  <li key={cousin.id}>{cousin.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {PCousins.length > 0 && (
+            <div className="apple paternal-apple">
+              <ul>
+                {PCousins.map((cousin) => (
+                  <li key={cousin.id}>{cousin.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="siblings">
             {TreeData.siblings?.map((sibling) => (
               <div className="sibling" key={sibling.id}>

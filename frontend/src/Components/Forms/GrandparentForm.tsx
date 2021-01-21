@@ -1,21 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-/*
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100, null=True, blank=True)
-    side = models.CharField(max_length=10, choices=SIDE_CHOICES, default="Maternal")
-    Gtype = models.CharField(max_length=10, choices=GPARENT_TYPE, default="Mother")
+import { useAlert } from "react-alert";
 
-    SIDE_CHOICES = (
-    ("Paternal", "Paternal"),
-    ("Maternal","Maternal")
-)
-GPARENT_TYPE = (
-     ("Mother", "Mother"),
-    ("Father","Father")
-)
-
-*/
 interface props {
   userId: number;
 }
@@ -24,6 +10,7 @@ const GrandparentForm: React.FC<props> = ({ userId }) => {
   const [name, setName] = useState<string>("");
   const [side, setSide] = useState<string>("Maternal");
   const [Gtype, setGtype] = useState<string>("Mother");
+  const alert = useAlert();
 
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
@@ -35,10 +22,18 @@ const GrandparentForm: React.FC<props> = ({ userId }) => {
       Gtype,
       user: userId,
     };
-    console.log(requestObject);
-    await axios.post("http://localhost:8000/api/grandparents/", requestObject, {
-      headers: { Authorization: `token ${token}` },
-    });
+    try {
+      await axios.post(
+        "http://localhost:8000/api/grandparents/",
+        requestObject,
+        {
+          headers: { Authorization: `token ${token}` },
+        }
+      );
+      alert.success("Grandparent Added");
+    } catch {
+      alert.error("There was an Error");
+    }
 
     setName("");
     setGtype("Mother");

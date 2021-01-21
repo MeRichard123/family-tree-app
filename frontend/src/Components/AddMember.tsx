@@ -3,6 +3,8 @@ import axios from "axios";
 import ReactModal from "react-modal";
 import MemberChangeForm from "./MemberChangeForm";
 
+ReactModal.setAppElement("#root");
+
 interface MemberTypes {
   type: string;
   userId: number;

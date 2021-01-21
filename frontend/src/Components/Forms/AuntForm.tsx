@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
+import { useAlert } from "react-alert";
 
 interface props {
   userId: number;
@@ -9,6 +10,7 @@ const AuntForm: React.FC<props> = ({ userId }) => {
   const [name, setName] = useState<string>("");
   const [spouse, setSpouse] = useState<string>("");
   const [side, setSide] = useState<string>("Paternal");
+  const alert = useAlert();
 
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
@@ -20,9 +22,14 @@ const AuntForm: React.FC<props> = ({ userId }) => {
       spouse,
       user: userId,
     };
-    await axios.post("http://localhost:8000/api/aunts/", requestObject, {
-      headers: { Authorization: `token ${token}` },
-    });
+    try {
+      await axios.post("http://localhost:8000/api/aunts/", requestObject, {
+        headers: { Authorization: `token ${token}` },
+      });
+      alert.success("Aunt Added");
+    } catch {
+      alert.error("There was an Error");
+    }
 
     setName("");
     setSpouse("");

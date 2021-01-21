@@ -32,9 +32,7 @@ class Uncle(models.Model):
 class Cousin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100, null=True, blank=True)
-    spouse = models.CharField(max_length=100, null=True, blank=True)
-    Father = models.ForeignKey(Uncle, null=True, blank=True, on_delete=models.CASCADE)
-    Mother = models.ForeignKey(Aunt, null=True, blank=True, on_delete=models.CASCADE)
+    side = models.CharField(max_length=10, choices=SIDE_CHOICES, default="Maternal")
 
     def __str__(self):
         return self.name

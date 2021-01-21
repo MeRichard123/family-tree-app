@@ -30,7 +30,7 @@ const Tree: React.FC<names> = (props) => {
       <div className="m-aunt leaf right">{props.m_aunt}</div>
 
       <div className="log">You</div>
-      <div className="apple">
+      <div className="home-apple">
         <ul>
           {props.cousins.map((cousin, index) => (
             <li key={index}>{cousin}</li>
