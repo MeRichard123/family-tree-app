@@ -55,36 +55,44 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
 
   const TreeData: RootObject = data;
 
-  // Filter Data
+  let paternalAunts;
+  let maternalAunts;
+  let paternalUncles;
+  let maternalUncles;
+  let MGParents;
+  let PGParents;
+  let PCousins: StateType[] = [];
+  let MCousins: StateType[] = [];
 
-  const paternalAunts = TreeData?.aunts?.filter(
-    (person) => person.side === "Paternal"
-  );
-  const maternalAunts = TreeData?.aunts?.filter(
-    (person) => person.side === "Maternal"
-  );
-  const paternalUncles = TreeData?.uncles?.filter(
-    (person) => person.side === "Paternal"
-  );
-  const maternalUncles = TreeData?.uncles?.filter(
-    (person) => person.side === "Maternal"
-  );
-  const MGParents = TreeData?.grandparents?.filter(
-    (person) => person.side === "Maternal"
-  );
-  const PGParents = TreeData?.grandparents?.filter(
-    (person) => person.side === "Paternal"
-  );
-  const PCousins = TreeData?.cousins?.filter(
-    (person) => person.side === "Paternal"
-  );
-  const MCousins = TreeData?.cousins.filter(
-    (person) => person.side === "Maternal"
-  );
+  // Filter Data
+  if (TreeData) {
+    paternalAunts = TreeData?.aunts?.filter(
+      (person) => person.side === "Paternal"
+    );
+    maternalAunts = TreeData?.aunts?.filter(
+      (person) => person.side === "Maternal"
+    );
+    paternalUncles = TreeData?.uncles?.filter(
+      (person) => person.side === "Paternal"
+    );
+    maternalUncles = TreeData?.uncles?.filter(
+      (person) => person.side === "Maternal"
+    );
+    MGParents = TreeData?.grandparents?.filter(
+      (person) => person.side === "Maternal"
+    );
+    PGParents = TreeData?.grandparents?.filter(
+      (person) => person.side === "Paternal"
+    );
+    PCousins = TreeData?.cousins?.filter(
+      (person) => person.side === "Paternal"
+    );
+    MCousins = TreeData?.cousins.filter((person) => person.side === "Maternal");
+  }
 
   return (
     <>
-      {!TreeData && !isSuccess ? (
+      {(!TreeData && !isSuccess) || data === "" ? (
         <div className="tree">
           <Tree {...defaultTreeProps} />
         </div>

@@ -202,7 +202,7 @@ class FamilyTreeViewset(viewsets.ViewSet):
         auntsQS = Aunt.objects.filter(user=req.user)
         uncleQS = Uncle.objects.filter(user=req.user)
         grandparentQS = GrandParent.objects.filter(user=req.user)
-        queryset = FamilyTree.objects.filter(pk=pk)
+        queryset = FamilyTree.objects.filter(user=pk)
 
         cousinData = CousinSerializer(cousinQS, many=True)
         siblingData = SiblingSerializer(siblingQS, many=True)
@@ -210,17 +210,19 @@ class FamilyTreeViewset(viewsets.ViewSet):
         uncleData = UncleSerializer(uncleQS, many=True)
         grandparentData = GrandparentSerializer(grandparentQS, many=True)
         serializer = FamilyTreeSerializer(queryset, many=True)
-
-        return Response({
-            'user': serializer.data[0].get("user"),
-            'mother': serializer.data[0].get("mother"),
-            'father': serializer.data[0].get("father"),
-            "cousins": cousinData.data,
-            "siblings": siblingData.data,
-            "aunts": auntData.data,
-            "uncles": uncleData.data,
-            "grandparents": grandparentData.data
-        })
+        try:
+            return Response({
+                'user': serializer.data[0].get("user"),
+                'mother': serializer.data[0].get("mother"),
+                'father': serializer.data[0].get("father"),
+                "cousins": cousinData.data,
+                "siblings": siblingData.data,
+                "aunts": auntData.data,
+                "uncles": uncleData.data,
+                "grandparents": grandparentData.data
+            })
+        except:
+            return Response(data={"Not Found"}, status=status.HTTP_204_NO_CONTENT)
 
     def create(self, req):
         serializer = FamilyTreeSerializer(data=req.data)

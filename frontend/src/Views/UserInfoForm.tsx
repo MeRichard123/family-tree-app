@@ -35,10 +35,15 @@ const UserInfoForm: React.FC<props> = () => {
     });
     return data;
   };
+  let ID: number;
 
-  const { data, isLoading } = useQuery("getUser", getUserDetail, {
+  const { data, isLoading, isSuccess } = useQuery("getUser", getUserDetail, {
     staleTime: 5000,
   });
+
+  if (isSuccess) {
+    ID = data.id;
+  }
 
   const FormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +54,7 @@ const UserInfoForm: React.FC<props> = () => {
     };
     if (HTTPMethod === "create") {
       try {
-        await axios.post("http://localhost:8000/api/tree/1/", requestObject, {
+        await axios.post(`http://localhost:8000/api/tree/`, requestObject, {
           headers: { Authorization: `Token ${token}` },
         });
         alert.info("Parents Added");
@@ -58,9 +63,13 @@ const UserInfoForm: React.FC<props> = () => {
       }
     } else if (HTTPMethod === "put") {
       try {
-        await axios.put("http://localhost:8000/api/tree/1/", requestObject, {
-          headers: { Authorization: `Token ${token}` },
-        });
+        await axios.put(
+          `http://localhost:8000/api/tree/${data.id}/`,
+          requestObject,
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        );
         alert.info("Updated Parents");
       } catch {
         alert.error("An Error has occured!");
@@ -71,17 +80,26 @@ const UserInfoForm: React.FC<props> = () => {
   useEffect(() => {
     const GetPutNames = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8000/api/tree/1", {
-          headers: { Authorization: `Token ${token}` },
-        });
-        setFather(data.father);
-        setMother(data.mother);
-        setHTTP("put");
+        const { data } = await axios.get(
+          `http://localhost:8000/api/tree/${ID}`,
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        );
+        if (data) {
+          setFather(data.father);
+          setMother(data.mother);
+          setHTTP("put");
+        } else {
+          setHTTP("create");
+        }
       } catch {
         console.log("Tree doesn't exist");
+        setHTTP("create");
       }
     };
     GetPutNames();
+    console.log(HTTPMethod);
   }, [token]);
 
   return (

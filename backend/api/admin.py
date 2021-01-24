@@ -4,8 +4,34 @@ from .models import FamilyTree, Cousin, Aunt, GrandParent, Uncle, Sibling
 # Register your models here.
 
 admin.site.register(FamilyTree)
-admin.site.register(Cousin)
-admin.site.register(Aunt)
-admin.site.register(GrandParent)
-admin.site.register(Uncle)
-admin.site.register(Sibling)
+
+
+@admin.register(Cousin)
+class CousinAdminProfile(admin.ModelAdmin):
+    list_filter = ["user"]
+    list_display = ["id", "name", "user"]
+    list_display_links = ['name']
+
+@admin.register(Aunt)
+class AuntAdminProfile(admin.ModelAdmin):
+    list_filter = ["user"]
+    list_display = ["id", "name", "user"]
+    list_display_links = ['name']
+
+@admin.register(GrandParent)
+class GrandParentAdminProfile(admin.ModelAdmin):
+    list_filter = ["user"]
+    list_display = ["id", "name", "user"]
+    list_display_links = ['name']
+
+@admin.register(Uncle)
+class UncleAdminProfile(admin.ModelAdmin):
+    list_filter = ["user"]
+    list_display = ["id", "name", "user"]
+    list_display_links = ['name']
+
+@admin.register(Sibling)
+class SiblingAdminProfile(admin.ModelAdmin):
+    list_filter = ["user"]
+    list_display = ["id", "name", "user"]
+    list_display_links = ['name']

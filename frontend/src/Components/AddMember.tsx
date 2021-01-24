@@ -58,7 +58,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
       </ReactModal>
       <h2>{type[0].toUpperCase() + type.slice(1)}</h2>
       {isLoading && <p>Loading</p>}
-      {data ? (
+      {data.length > 0 ? (
         <ul>
           {data.map((member: any, index: number) => (
             <div className="member" key={index}>
