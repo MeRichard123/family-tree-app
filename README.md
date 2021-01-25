@@ -41,6 +41,10 @@ npm i
 
 To run the react app run `npm start` in the frontend directory
 
+# POSTGRESQL
+
+https://www.vphventures.com/how-to-migrate-your-django-project-from-sqlite-to-postgresql/
+
 # Documentation
 
 - [API V2](/docs/APIv2.md)
