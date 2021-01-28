@@ -3,8 +3,9 @@ from .models import FamilyTree, Cousin, Aunt, GrandParent, Uncle, Sibling
 
 # Register your models here.
 
-admin.site.register(FamilyTree)
-
+@admin.register(FamilyTree)
+class FamilyTreeProfile(admin.ModelAdmin):
+    list_display = ['id','user']
 
 @admin.register(Cousin)
 class CousinAdminProfile(admin.ModelAdmin):

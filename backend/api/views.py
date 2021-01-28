@@ -232,7 +232,7 @@ class FamilyTreeViewset(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, req, pk):
-        instance = FamilyTree.objects.get(id=pk)
+        instance = FamilyTree.objects.filter(user=pk).first()
         serializer = FamilyTreeSerializer(instance, data=req.data)
         if serializer.is_valid():
             serializer.save()

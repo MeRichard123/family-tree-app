@@ -7,11 +7,6 @@ import { useQuery } from "react-query";
 import AddMember from "../Components/AddMember";
 import Loading from "../Utils/Loading";
 
-interface props {
-  username: string;
-  userId: number;
-}
-
 const routes: Array<string> = [
   "aunts",
   "uncles",
@@ -20,7 +15,7 @@ const routes: Array<string> = [
   "cousins",
 ];
 
-const UserInfoForm: React.FC<props> = () => {
+const UserInfoForm: React.FC = () => {
   const [mother, setMother] = useState<string>("");
   const [father, setFather] = useState<string>("");
   const [HTTPMethod, setHTTP] = useState<string>("create");
@@ -64,7 +59,7 @@ const UserInfoForm: React.FC<props> = () => {
     } else if (HTTPMethod === "put") {
       try {
         await axios.put(
-          `http://localhost:8000/api/tree/${data.id}/`,
+          `http://localhost:8000/api/tree/${ID}/`,
           requestObject,
           {
             headers: { Authorization: `Token ${token}` },
@@ -86,7 +81,7 @@ const UserInfoForm: React.FC<props> = () => {
             headers: { Authorization: `Token ${token}` },
           }
         );
-        if (data) {
+        if (data.father?.length > 1) {
           setFather(data.father);
           setMother(data.mother);
           setHTTP("put");
@@ -99,8 +94,7 @@ const UserInfoForm: React.FC<props> = () => {
       }
     };
     GetPutNames();
-    console.log(HTTPMethod);
-  }, [token]);
+  }, []);
 
   return (
     <div className="modal-form">
