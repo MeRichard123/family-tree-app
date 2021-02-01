@@ -22,7 +22,7 @@ const Register: React.FC = () => {
     };
 
     try {
-      await axios.post("http://localhost:8000/api/auth/registerd", requestBody);
+      await axios.post("http://localhost:8000/api/auth/register", requestBody);
       setMsg("User Created Successfully");
       setEmail("");
       setPassword("");

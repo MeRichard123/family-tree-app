@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 import json
 
 from .serializers import *
@@ -240,8 +240,22 @@ class FamilyTreeViewset(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, req, pk):
-        user_tree = FamilyTree.objects.filter(user=req)
+        user_tree = FamilyTree.objects.filter(user=req.user)
         user_tree.delete()
         return Response(data={"Tree Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     
+@api_view(['delete'])
+@permission_classes([IsAuthenticated])
+def DeleteAccount(req, username):
+    try:
+        user_tree = FamilyTree.objects.filter(user=req.user).delete()
+        aunts = Aunt.objects.filter(user=req.user).delete()
+        couins = Cousin.objects.filter(user=req.user).delete()
+        siblings = Sibling.objects.filter(user=req.user).delete()
+        uncles = Uncle.objects.filter(user=req.user).delete()
+        grandparents = GrandParent.objects.filter(user=req.user).delete()
+        user = User.objects.get(username=username).delete()
+        return Response("Account Removed")
+    except:
+        return Response("There was an Error")

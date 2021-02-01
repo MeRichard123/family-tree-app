@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAlert } from "react-alert";
 import Tree from "../Assets/tree.svg";
 import { useQuery } from "react-query";
@@ -18,6 +18,8 @@ const routes: Array<string> = [
 const UserInfoForm: React.FC = () => {
   const [mother, setMother] = useState<string>("");
   const [father, setFather] = useState<string>("");
+  const [oldPassword, setOldPass] = useState<string>("");
+  const [newPassword, setNewPass] = useState<string>("");
   const [HTTPMethod, setHTTP] = useState<string>("create");
   const alert = useAlert();
 
@@ -39,6 +41,39 @@ const UserInfoForm: React.FC = () => {
   if (isSuccess) {
     ID = data.id;
   }
+
+  const RemoveAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (window.confirm("Are you sure?")) {
+      await axios.delete(
+        `http://localhost:8000/account/delete/${data?.username}`,
+        {
+          headers: { Authorization: `Token ${token}` },
+        }
+      );
+      window.location.replace("/logout");
+    }
+  };
+
+  const ChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const body = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/api/auth/passwordReset/${data.username}`,
+        body,
+        {
+          headers: { Authorization: `Token ${token}` },
+        }
+      );
+      alert.info(res.data.message);
+    } catch {
+      console.log("Error");
+    }
+  };
 
   const FormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,6 +173,43 @@ const UserInfoForm: React.FC = () => {
               type="submit"
               value="Add Parents"
               className="modal-form__parent-form__button"
+            />
+          </form>
+        </div>
+      </div>
+      <h1 className="title-account">Account</h1>
+      <div className="account">
+        <div className="account-remove">
+          <form action="" onSubmit={RemoveAccount}>
+            <h2>Danger Zone</h2>
+            <button type="submit">Delete Account</button>
+          </form>
+        </div>
+        <div className="account-password">
+          <form
+            action=""
+            className="modal-form__parent-form"
+            onSubmit={ChangePassword}
+          >
+            <h2>Change Password</h2>
+            <label htmlFor="old">Old Password</label>
+            <input
+              type="text"
+              id="old"
+              value={oldPassword}
+              onChange={(e) => setOldPass(e.target.value)}
+            />
+            <label htmlFor="new">New Password</label>
+            <input
+              type="text"
+              id="new"
+              value={newPassword}
+              onChange={(e) => setNewPass(e.target.value)}
+            />
+            <input
+              type="submit"
+              value="Change Password"
+              className="changepassbtn"
             />
           </form>
         </div>

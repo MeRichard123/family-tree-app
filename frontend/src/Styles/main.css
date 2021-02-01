@@ -729,6 +729,71 @@ footer a {
   cursor: pointer;
 }
 
+.account {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.account div {
+  margin: 0 10px;
+}
+
+.account .account-password form h2 {
+  margin-bottom: 10px;
+}
+
+.account .account-password form .changepassbtn {
+  all: initial;
+  background: #b2945b;
+  text-align: center;
+  margin: 20px 10px;
+  padding: 10px 45px;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+  font-family: "Rubik";
+  border: 2px solid #b2945b;
+  color: white;
+  cursor: pointer;
+}
+
+.account .account-password form .changepassbtn:hover {
+  color: #b2945b;
+  background-color: white;
+}
+
+.account .account-remove button {
+  all: initial;
+  background: #e17055;
+  text-align: center;
+  margin: 20px 10px;
+  padding: 10px 45px;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+  font-family: "Rubik";
+  border: 2px solid #e17055;
+  color: white;
+  cursor: pointer;
+}
+
+.account .account-remove button:hover {
+  color: #e17055;
+  background-color: white;
+}
+
+.title-account {
+  margin-top: 30px;
+}
+
 .loader {
   min-height: 100vh;
   display: -webkit-box;

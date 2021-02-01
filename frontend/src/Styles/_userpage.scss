@@ -38,3 +38,58 @@
   right: 15px;
   cursor: pointer;
 }
+
+.account {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  div {
+    margin: 0 10px;
+  }
+  .account-password {
+    form {
+      h2 {
+        margin-bottom: 10px;
+      }
+      .changepassbtn {
+        all: initial;
+        background: #b2945b;
+        text-align: center;
+        margin: 20px 10px;
+        padding: 10px 45px;
+        transition: all 300ms ease;
+        font-family: "Rubik";
+        border: 2px solid #b2945b;
+        color: white;
+        cursor: pointer;
+        &:hover {
+          color: #b2945b;
+          background-color: white;
+        }
+      }
+    }
+  }
+  .account-remove {
+    button {
+      all: initial;
+      background: #e17055;
+      text-align: center;
+      margin: 20px 10px;
+      padding: 10px 45px;
+      transition: all 300ms ease;
+      font-family: "Rubik";
+      border: 2px solid #e17055;
+      color: white;
+      cursor: pointer;
+      &:hover {
+        color: #e17055;
+        background-color: white;
+      }
+    }
+  }
+}
+.title-account {
+  margin-top: 30px;
+}
