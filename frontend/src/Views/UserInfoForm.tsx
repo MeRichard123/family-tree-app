@@ -37,13 +37,17 @@ const UserInfoForm: React.FC = () => {
   const RemoveAccount = async (e: React.FormEvent) => {
     e.preventDefault();
     if (window.confirm("Are you sure?")) {
-      await axios.delete(
-        `http://localhost:8000/account/delete/${data?.username}`,
-        {
-          headers: { Authorization: `Token ${token.current}` },
-        }
-      );
-      window.location.replace("/logout");
+      try {
+        await axios.delete(
+          `http://localhost:8000/account/delete/${data?.username}`,
+          {
+            headers: { Authorization: `Token ${token.current}` },
+          }
+        );
+        window.location.replace("/logout");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -135,6 +139,7 @@ const UserInfoForm: React.FC = () => {
         Hi {data?.username[0].toUpperCase() + data?.username.slice(1)} customize
         your tree with names below:
       </h3>
+
       <div className="member-form">
         {routes.map((route, index) => (
           <AddMember type={route} key={index} userId={data?.id} />
@@ -169,6 +174,7 @@ const UserInfoForm: React.FC = () => {
           </form>
         </div>
       </div>
+
       <h1 className="title-account">Account</h1>
       <div className="account">
         <div className="account-remove">

@@ -21,8 +21,6 @@ export const defaultTreeProps: names = {
 };
 
 const UserPage = () => {
-  let token = localStorage.getItem("token");
-  token = JSON.parse(token || "{}").token;
   const { data, isLoading, isSuccess } = useUserDetail();
 
   return (

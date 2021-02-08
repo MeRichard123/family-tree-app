@@ -16,17 +16,25 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
   const getMemberData = useRef(() => {});
 
   const RemoveMember = async (name: string) => {
-    await axios.delete(`http://localhost:8000/api/${type}/${name}`, {
-      headers: { Authorization: `Token ${token}` },
-    });
+    try {
+      await axios.delete(`http://localhost:8000/api/${type}/${name}`, {
+        headers: { Authorization: `Token ${token}` },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   getMemberData.current = async () => {
-    const { data } = await axios.get(`http://localhost:8000/api/${type}`, {
-      headers: { Authorization: `Token ${token}` },
-    });
-    setData(data);
-    setLoading(false);
+    try {
+      const { data } = await axios.get(`http://localhost:8000/api/${type}`, {
+        headers: { Authorization: `Token ${token}` },
+      });
+      setData(data);
+      setLoading(false);
+    } catch (err) {
+      console.log("Error");
+    }
   };
 
   useEffect(() => {

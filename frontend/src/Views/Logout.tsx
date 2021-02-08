@@ -8,11 +8,15 @@ const Logout = () => {
   const setAuthed = useAuth((state) => state.setAuthed);
 
   const logoutuser = async () => {
-    await axios.post("http://localhost:8000/api/auth/logout", null, {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    });
+    try {
+      await axios.post("http://localhost:8000/api/auth/logout", null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   useEffect(() => {
     logoutuser();

@@ -30,11 +30,15 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
   // Fetch User Tree
 
   const getUserTree = async () => {
-    const { data } = await axios.get(
-      `http://localhost:8000/api/tree/${id}`,
-      headers
-    );
-    return data;
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/tree/${id}`,
+        headers
+      );
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
   };
   const { data, isSuccess } = useQuery("getTree", getUserTree);
 
