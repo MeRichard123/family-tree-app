@@ -2,13 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import ReactModal from "react-modal";
 import MemberChangeForm from "./MemberChangeForm";
+import { MemberTypes } from "../Utils/Types";
 
 ReactModal.setAppElement("#root");
-
-interface MemberTypes {
-  type: string;
-  userId: number;
-}
 
 const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
   const [data, setData] = useState<Array<string>>([]);
@@ -44,8 +40,8 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
         ariaHideApp={false}
         onRequestClose={() => setModalIsOpen(false)}
         style={{
-          overlay: { zIndex: 999 },
-          content: { zIndex: 999 },
+          overlay: { zIndex: 100 },
+          content: { zIndex: 100 },
         }}
       >
         <div onClick={() => setModalIsOpen(false)} className="close-btn">

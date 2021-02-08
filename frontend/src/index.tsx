@@ -9,6 +9,9 @@ import "./Styles/main.css";
 const options = {
   timeout: 4000,
   position: positions.TOP_CENTER,
+  containerStyle: {
+    zIndex: 999,
+  },
 };
 
 ReactDOM.render(

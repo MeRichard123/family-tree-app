@@ -1,24 +1,10 @@
 import React from "react";
-import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Loading from "../Utils/Loading";
 import settings from "../Assets/settings.svg";
 import UserTree from "../Components/UserTree";
-
-interface names {
-  p_gfather: string;
-  p_gmother: string;
-  m_gfather: string;
-  m_gmother: string;
-  p_uncle: string;
-  p_aunt: string;
-  father: string;
-  mother: string;
-  m_uncle: string;
-  m_aunt: string;
-  cousins: Array<string>;
-}
+import { names } from "../Utils/Types";
+import { useUserDetail } from "../Hooks";
 
 export const defaultTreeProps: names = {
   p_gfather: "P Grandfather",
@@ -37,17 +23,7 @@ export const defaultTreeProps: names = {
 const UserPage = () => {
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
-
-  const getUserDetail = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/auth/user", {
-      headers: { Authorization: `Token ${token}` },
-    });
-    return data;
-  };
-
-  const { data, isLoading, isSuccess } = useQuery("getUser", getUserDetail, {
-    staleTime: 5000,
-  });
+  const { data, isLoading, isSuccess } = useUserDetail();
 
   return (
     <>

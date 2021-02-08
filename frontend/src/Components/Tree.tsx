@@ -1,18 +1,5 @@
 import React from "react";
-
-interface names {
-  p_gfather: string;
-  p_gmother: string;
-  m_gfather: string;
-  m_gmother: string;
-  p_uncle: string;
-  p_aunt: string;
-  father: string;
-  mother: string;
-  m_uncle: string;
-  m_aunt: string;
-  cousins: Array<string>;
-}
+import { names } from "../Utils/Types";
 
 const Tree: React.FC<names> = (props) => {
   return (

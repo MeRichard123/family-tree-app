@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { defaultTreeProps } from "../Views/Home";
 import Tree from "./Tree";
+import { GrandParentType, StateType } from "../Utils/Types";
 
 interface PropTypes {
   id: number;
@@ -17,22 +18,6 @@ interface RootObject {
   aunts: Array<StateType>;
   uncles: Array<StateType>;
   grandparents: Array<GrandParentType>;
-}
-
-interface StateType {
-  id: number;
-  name: string;
-  side: string;
-  spouse: string;
-  user: number;
-}
-
-interface GrandParentType {
-  id: number;
-  name: string;
-  side: string;
-  GType: string;
-  user: number;
 }
 
 const UserTree: React.FC<PropTypes> = ({ id }) => {

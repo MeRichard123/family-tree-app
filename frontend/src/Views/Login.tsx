@@ -5,8 +5,6 @@ import { useMessages, useAuthToken, useAuth } from "../Utils/store";
 import axios from "axios";
 
 const Login: React.FC = () => {
-  // const setMsgs = useRef((msg: string) => {void} );
-
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const messages = useMessages((state) => state.msg);

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import Tree from "../Assets/tree.svg";
-import { useQuery } from "react-query";
 import AddMember from "../Components/AddMember";
 import Loading from "../Utils/Loading";
+import { useUserDetail } from "../Hooks";
 
 const routes: Array<string> = [
   "aunts",
@@ -23,23 +23,15 @@ const UserInfoForm: React.FC = () => {
   const [HTTPMethod, setHTTP] = useState<string>("create");
   const alert = useAlert();
 
-  let token = localStorage.getItem("token");
-  token = JSON.parse(token || "{}").token;
+  let token = useRef<string | null>("" || null);
+  token.current = localStorage.getItem("token");
+  token.current = JSON.parse(token.current || "{}").token;
+  const { data, isLoading, isSuccess } = useUserDetail();
 
-  const getUserDetail = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/auth/user", {
-      headers: { Authorization: `Token ${token}` },
-    });
-    return data;
-  };
-  let ID: number;
-
-  const { data, isLoading, isSuccess } = useQuery("getUser", getUserDetail, {
-    staleTime: 5000,
-  });
+  let ID = useRef<number | null>(0 || null);
 
   if (isSuccess) {
-    ID = data.id;
+    ID.current = data.id;
   }
 
   const RemoveAccount = async (e: React.FormEvent) => {
@@ -48,7 +40,7 @@ const UserInfoForm: React.FC = () => {
       await axios.delete(
         `http://localhost:8000/account/delete/${data?.username}`,
         {
-          headers: { Authorization: `Token ${token}` },
+          headers: { Authorization: `Token ${token.current}` },
         }
       );
       window.location.replace("/logout");
@@ -63,10 +55,10 @@ const UserInfoForm: React.FC = () => {
     };
     try {
       const res = await axios.put(
-        `http://localhost:8000/api/auth/passwordReset/${data.username}`,
+        `http://localhost:8000/api/auth/passwordReset`,
         body,
         {
-          headers: { Authorization: `Token ${token}` },
+          headers: { Authorization: `Token ${token.current}` },
         }
       );
       alert.info(res.data.message);
@@ -85,7 +77,7 @@ const UserInfoForm: React.FC = () => {
     if (HTTPMethod === "create") {
       try {
         await axios.post(`http://localhost:8000/api/tree/`, requestObject, {
-          headers: { Authorization: `Token ${token}` },
+          headers: { Authorization: `Token ${token.current}` },
         });
         alert.info("Parents Added");
       } catch (err) {
@@ -94,10 +86,10 @@ const UserInfoForm: React.FC = () => {
     } else if (HTTPMethod === "put") {
       try {
         await axios.put(
-          `http://localhost:8000/api/tree/${ID}/`,
+          `http://localhost:8000/api/tree/${ID.current}/`,
           requestObject,
           {
-            headers: { Authorization: `Token ${token}` },
+            headers: { Authorization: `Token ${token.current}` },
           }
         );
         alert.info("Updated Parents");
@@ -111,9 +103,9 @@ const UserInfoForm: React.FC = () => {
     const GetPutNames = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:8000/api/tree/${ID}`,
+          `http://localhost:8000/api/tree/${ID.current}`,
           {
-            headers: { Authorization: `Token ${token}` },
+            headers: { Authorization: `Token ${token.current}` },
           }
         );
         if (data.father?.length > 1) {
