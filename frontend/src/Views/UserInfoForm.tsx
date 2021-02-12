@@ -6,6 +6,7 @@ import Tree from "../Assets/tree.svg";
 import AddMember from "../Components/AddMember";
 import Loading from "../Utils/Loading";
 import { useUserDetail } from "../Hooks";
+import { BASE_URL } from "../Utils/store";
 
 const routes: Array<string> = [
   "aunts",
@@ -38,12 +39,9 @@ const UserInfoForm: React.FC = () => {
     e.preventDefault();
     if (window.confirm("Are you sure?")) {
       try {
-        await axios.delete(
-          `http://localhost:8000/account/delete/${data?.username}`,
-          {
-            headers: { Authorization: `Token ${token.current}` },
-          }
-        );
+        await axios.delete(`${BASE_URL}/account/delete/${data?.username}`, {
+          headers: { Authorization: `Token ${token.current}` },
+        });
         window.location.replace("/logout");
       } catch (err) {
         console.log(err);
@@ -58,13 +56,9 @@ const UserInfoForm: React.FC = () => {
       new_password: newPassword,
     };
     try {
-      const res = await axios.put(
-        `http://localhost:8000/api/auth/passwordReset`,
-        body,
-        {
-          headers: { Authorization: `Token ${token.current}` },
-        }
-      );
+      const res = await axios.put(`${BASE_URL}/api/auth/passwordReset`, body, {
+        headers: { Authorization: `Token ${token.current}` },
+      });
       alert.info(res.data.message);
     } catch {
       console.log("Error");
@@ -80,7 +74,7 @@ const UserInfoForm: React.FC = () => {
     };
     if (HTTPMethod === "create") {
       try {
-        await axios.post(`http://localhost:8000/api/tree/`, requestObject, {
+        await axios.post(`${BASE_URL}/api/tree/`, requestObject, {
           headers: { Authorization: `Token ${token.current}` },
         });
         alert.info("Parents Added");
@@ -89,13 +83,9 @@ const UserInfoForm: React.FC = () => {
       }
     } else if (HTTPMethod === "put") {
       try {
-        await axios.put(
-          `http://localhost:8000/api/tree/${ID.current}/`,
-          requestObject,
-          {
-            headers: { Authorization: `Token ${token.current}` },
-          }
-        );
+        await axios.put(`${BASE_URL}/api/tree/${ID.current}/`, requestObject, {
+          headers: { Authorization: `Token ${token.current}` },
+        });
         alert.info("Updated Parents");
       } catch {
         alert.error("An Error has occured!");
@@ -106,12 +96,9 @@ const UserInfoForm: React.FC = () => {
   useEffect(() => {
     const GetPutNames = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:8000/api/tree/${ID.current}`,
-          {
-            headers: { Authorization: `Token ${token.current}` },
-          }
-        );
+        const { data } = await axios.get(`${BASE_URL}/api/tree/${ID.current}`, {
+          headers: { Authorization: `Token ${token.current}` },
+        });
         if (data.father?.length > 1) {
           setFather(data.father);
           setMother(data.mother);

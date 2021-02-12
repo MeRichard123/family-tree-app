@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { defaultTreeProps } from "../Views/Home";
 import Tree from "./Tree";
 import { GrandParentType, StateType } from "../Utils/Types";
+import { BASE_URL } from "../Utils/store";
 
 interface PropTypes {
   id: number;
@@ -31,10 +32,7 @@ const UserTree: React.FC<PropTypes> = ({ id }) => {
 
   const getUserTree = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:8000/api/tree/${id}`,
-        headers
-      );
+      const { data } = await axios.get(`${BASE_URL}/api/tree/${id}`, headers);
       return data;
     } catch (err) {
       console.log(err);

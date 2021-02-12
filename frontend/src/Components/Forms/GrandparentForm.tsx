@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import { BASE_URL } from "../../Utils/store";
 
 interface props {
   userId: number;
@@ -23,13 +24,9 @@ const GrandparentForm: React.FC<props> = ({ userId }) => {
       user: userId,
     };
     try {
-      await axios.post(
-        "http://localhost:8000/api/grandparents/",
-        requestObject,
-        {
-          headers: { Authorization: `token ${token}` },
-        }
-      );
+      await axios.post(`${BASE_URL}/api/grandparents/`, requestObject, {
+        headers: { Authorization: `token ${token}` },
+      });
       alert.success("Grandparent Added");
     } catch {
       alert.error("There was an Error");

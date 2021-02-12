@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useMessages } from "../Utils/store";
+import { useMessages, BASE_URL } from "../Utils/store";
 import { useAlert } from "react-alert";
 import axios from "axios";
 
@@ -22,7 +22,7 @@ const Register: React.FC = () => {
     };
 
     try {
-      await axios.post("http://localhost:8000/api/auth/register", requestBody);
+      await axios.post(`${BASE_URL}/api/auth/register`, requestBody);
       setMsg("User Created Successfully");
       setEmail("");
       setPassword("");

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
-import { useMessages, useAuthToken, useAuth } from "../Utils/store";
-import axios from "axios";
+import { useMessages, useAuthToken, useAuth, BASE_URL } from "../Utils/store";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -32,10 +32,7 @@ const Login: React.FC = () => {
       password,
     };
     try {
-      const res = await axios.post(
-        "http://localhost:8000/api/auth/login",
-        requestBody
-      );
+      const res = await axios.post(`${BASE_URL}/api/auth/login`, requestBody);
       await setToken(res.data.token);
       await setAuthed(true);
       await setUsername("");

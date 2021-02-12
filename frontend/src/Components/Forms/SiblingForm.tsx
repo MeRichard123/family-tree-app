@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import { BASE_URL } from "../../Utils/store";
 
 interface props {
   userId: number;
@@ -19,7 +20,7 @@ const SiblingForm: React.FC<props> = ({ userId }) => {
       user: userId,
     };
     try {
-      await axios.post("http://localhost:8000/api/siblings/", requestObject, {
+      await axios.post(`${BASE_URL}/api/siblings/`, requestObject, {
         headers: { Authorization: `token ${token}` },
       });
       alert.success("Sibling Added");

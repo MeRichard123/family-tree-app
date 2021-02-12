@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import { BASE_URL } from "../../Utils/store";
 
 interface props {
   userId: number;
@@ -21,7 +22,7 @@ const CousinForm: React.FC<props> = ({ userId }) => {
       side,
     };
     try {
-      await axios.post("http://localhost:8000/api/cousins/", requestObject, {
+      await axios.post(`${BASE_URL}/api/cousins/`, requestObject, {
         headers: { Authorization: `token ${token}` },
       });
       alert.success("Cousin Added");

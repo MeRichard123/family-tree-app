@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import { useAuthToken, useAuth } from "../Utils/store";
+import { useAuthToken, useAuth, BASE_URL } from "../Utils/store";
 import axios from "axios";
 
-const Logout = () => {
+const Logout: React.FC = () => {
   const token = useAuthToken((state) => state.token);
   const setToken = useAuthToken((state) => state.setToken);
   const setAuthed = useAuth((state) => state.setAuthed);
 
   const logoutuser = async () => {
     try {
-      await axios.post("http://localhost:8000/api/auth/logout", null, {
+      await axios.post(`${BASE_URL}/api/auth/logout`, null, {
         headers: {
           Authorization: `Token ${token}`,
         },

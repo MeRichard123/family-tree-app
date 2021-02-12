@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactModal from "react-modal";
 import MemberChangeForm from "./MemberChangeForm";
 import { MemberTypes } from "../Utils/Types";
+import { BASE_URL } from "../Utils/store";
 
 ReactModal.setAppElement("#root");
 
@@ -17,7 +18,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
 
   const RemoveMember = async (name: string) => {
     try {
-      await axios.delete(`http://localhost:8000/api/${type}/${name}`, {
+      await axios.delete(`${BASE_URL}/api/${type}/${name}`, {
         headers: { Authorization: `Token ${token}` },
       });
     } catch (err) {
@@ -27,7 +28,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
 
   getMemberData.current = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:8000/api/${type}`, {
+      const { data } = await axios.get(`${BASE_URL}/api/${type}`, {
         headers: { Authorization: `Token ${token}` },
       });
       setData(data);

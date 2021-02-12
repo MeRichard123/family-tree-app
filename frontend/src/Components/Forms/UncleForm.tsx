@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import { BASE_URL } from "../../Utils/store";
 
 interface props {
   userId: number;
@@ -23,7 +24,7 @@ const UncleForm: React.FC<props> = ({ userId }) => {
       user: userId,
     };
     try {
-      await axios.post("http://localhost:8000/api/uncles/", requestObject, {
+      await axios.post(`${BASE_URL}/api/uncles/`, requestObject, {
         headers: { Authorization: `token ${token}` },
       });
       alert.success("Uncle Added");

@@ -16,6 +16,8 @@ type msgState = {
   setMsg: (msg: string) => void;
 };
 
+export const BASE_URL = "http://localhost:8000";
+
 export const useAuthToken = create<tokenState>(
   persist(
     (set) => ({
