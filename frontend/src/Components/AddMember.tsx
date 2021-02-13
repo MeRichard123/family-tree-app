@@ -39,7 +39,13 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
   };
 
   useEffect(() => {
+    let mounted: boolean = true;
+    if (!mounted) return;
     getMemberData.current();
+
+    return () => {
+      mounted = false;
+    };
   }, [data]);
 
   return (

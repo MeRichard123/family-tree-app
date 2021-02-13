@@ -6,7 +6,7 @@ import { names } from "../Utils/Types";
 
 export const defaultTreeProps: names = {
   p_gfather: "P Grandfather",
-  p_gmother: "P Mother",
+  p_gmother: "P Grandmother",
   m_gfather: "M Grandfather",
   m_gmother: "M Grandmother",
   p_uncle: "P Uncle",

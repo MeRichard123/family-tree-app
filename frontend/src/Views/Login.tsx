@@ -39,6 +39,7 @@ const Login: React.FC = () => {
       await setPassword("");
       await window.location.replace("/home");
     } catch (err) {
+      alert.error("Username or Password Incorrect");
       alert.error("Unable to Authenticate");
     }
   };
