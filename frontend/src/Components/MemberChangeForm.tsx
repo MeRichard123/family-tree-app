@@ -13,6 +13,7 @@ interface props {
 }
 
 const MemberChangeForm: React.FC<props> = ({ type, userId }) => {
+  // Conditionally render a different form in the modal
   return (
     <div className="modal-form">
       {type === "cousins" && <CousinForm userId={userId} />}

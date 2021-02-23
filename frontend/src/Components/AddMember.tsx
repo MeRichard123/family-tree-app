@@ -11,9 +11,12 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
   const [data, setData] = useState<Array<string>>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  // Force refetch after removing member, by adding to useEffect dependency
+  const [deleteEvent, emitDeleteEvent] = useState<boolean>(false);
   let token = localStorage.getItem("token");
   token = JSON.parse(token || "{}").token;
 
+  // A Ref is used get around the use Effect is missing a dependency warning
   const getMemberData = useRef(() => {});
 
   const RemoveMember = async (name: string) => {
@@ -21,6 +24,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
       await axios.delete(`${BASE_URL}/api/${type}/${name}`, {
         headers: { Authorization: `Token ${token}` },
       });
+      emitDeleteEvent((previousEvent)=> !previousEvent )
     } catch (err) {
       console.log(err);
     }
@@ -39,6 +43,8 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
   };
 
   useEffect(() => {
+    // Mounted variable un-mounts the component so that react doesn't complain about updating
+    // State of an unmounted component.
     let mounted: boolean = true;
     if (!mounted) return;
     getMemberData.current();
@@ -46,7 +52,7 @@ const AddMember: React.FC<MemberTypes> = ({ type, userId }) => {
     return () => {
       mounted = false;
     };
-  }, [data]);
+  }, [modalIsOpen, deleteEvent]);
 
   return (
     <div className="member-box">

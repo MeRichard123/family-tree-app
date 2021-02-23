@@ -12,13 +12,15 @@ const Login: React.FC = () => {
   const setToken = useAuthToken((state) => state.setToken);
   const setAuthed = useAuth((state) => state.setAuthed);
 
+  // Create New Alert
   const alert = useAlert();
 
   useEffect(() => {
+    // Show message if there is one
     if (messages !== "") {
       alert.success(messages);
     }
-
+    // Clear Message after 5 sec
     setTimeout(() => {
       setMsgs("");
     }, 5000);

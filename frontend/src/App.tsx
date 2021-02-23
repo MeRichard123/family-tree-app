@@ -2,7 +2,15 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navigation from "./Components/Navigation";
-import { Home, Login, Register, UserPage, Logout, UserInfoForm } from "./Views";
+import {
+  Home,
+  Login,
+  Register,
+  UserPage,
+  Logout,
+  UserInfoForm,
+  FourOFour,
+} from "./Views";
 import Footer from "./Components/Footer";
 import PrivateRoute from "./Utils/PrivateRoute";
 
@@ -21,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/logout" component={Logout} />
             <PrivateRoute path="/home" component={UserPage} />
             <PrivateRoute path="/settings" component={UserInfoForm} />
+            <Route component={FourOFour} />
           </Switch>
           <Footer />
         </div>

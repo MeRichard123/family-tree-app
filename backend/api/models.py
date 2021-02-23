@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-# Create your models here.
 
 SIDE_CHOICES = (
     ("Paternal", "Paternal"),
@@ -60,3 +59,5 @@ class FamilyTree(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Family Tree"
+
+

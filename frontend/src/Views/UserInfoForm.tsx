@@ -29,8 +29,10 @@ const UserInfoForm: React.FC = () => {
   token.current = JSON.parse(token.current || "{}").token;
   const { data, isLoading, isSuccess } = useUserDetail();
 
+  // Stop React from complaining about missing dependencies using a Ref
   let ID = useRef<number | null>(0 || null);
 
+  // Set the Id if get data
   if (isSuccess) {
     ID.current = data.id;
   }
@@ -72,6 +74,7 @@ const UserInfoForm: React.FC = () => {
       mother,
       father,
     };
+    // Swap between Create and Put if we have data in order to use the same form
     if (HTTPMethod === "create") {
       try {
         await axios.post(`${BASE_URL}/api/tree/`, requestObject, {
@@ -94,11 +97,13 @@ const UserInfoForm: React.FC = () => {
   };
 
   useEffect(() => {
+    
     const GetPutNames = async () => {
       try {
         const { data } = await axios.get(`${BASE_URL}/api/tree/${ID.current}`, {
           headers: { Authorization: `Token ${token.current}` },
         });
+        // Toggle create and put
         if (data.father?.length > 1) {
           setFather(data.father);
           setMother(data.mother);
